@@ -9,7 +9,7 @@ img_gaussian = addGaussianNoise(img,15);
 
 img_median_ori = applyMedianFilter(img,filterSize);
 img_median_saltPepper = applyMedianFilter(img_saltPepper,filterSize);
-img_median_gaussian = applyMedianFilter(img_gaussianNoise,filterSize);
+img_median_gaussian = applyMedianFilter(img_gaussian,filterSize);
 
 filter = fspecial('gaussian',filterSize,1);
 
@@ -31,7 +31,7 @@ title('gaussian noise');
 
 subplot(3,3,4); 
 imshow(img_median_ori,[0,255]); 
-title('median: salt and pepper');
+title('median: original');
 
 subplot(3,3,5); 
 imshow(img_median_saltPepper,[0,255]); 
@@ -43,7 +43,7 @@ title('median: gaussian noise');
 
 subplot(3,3,7); 
 imshow(img_gaussianFiltered_ori,[0,255]); 
-title('gaussian-filter: salt and pepper');
+title('gaussian-filter: original');
 
 subplot(3,3,8); 
 imshow(img_gaussianFiltered_saltPepper,[0,255]); 
@@ -53,9 +53,6 @@ subplot(3,3,9);
 imshow(img_gaussianFiltered_gaussian,[0,255]); 
 title('gaussian-filter: gaussian noise');
 
-
-figure()
-imshow(img_gaussianNoise,[0,255]); 
 
 
 % Result:
