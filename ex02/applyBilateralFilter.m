@@ -11,6 +11,10 @@ function newImg = applyBilateralFilter(img,sigmaD,sigmaR)
     m = floor(sigmaD*1.5);
     n = m;
         
+    h = waitbar(0,'Progress ...');
+    set(h,'Name',sprintf('running bilateral filter with sigmaD %d and sigmaR %d',sigmaD,sigmaR));
+
+    
     % outer loops iterate over all pixels of image
     for r=1:1:R
         for c=1:1:C
@@ -26,29 +30,33 @@ function newImg = applyBilateralFilter(img,sigmaD,sigmaR)
                     % get intensity at position (-i and -j because the mask
                     % must be rotated 180°
                     
-                    if(x~=0 || y~=0) 
+                    % if(x~=0 && y~=0) 
                         
-                    
-                    
                         pixelPosY = max(min(r+y,R),1);
                         pixelPosX = max(min(c+x,C),1);
 
+						% intensity of pixel in image where the filter is applied
                         iXi = img(pixelPosY,pixelPosX);
 
+                        % compute similarity
                         delta = abs(img(r,c)-iXi);
-                        similarity = exp(double(-0.5*((delta/sigmaR)^2)));
+                        similarity = exp(-0.5*((delta/sigmaR)^2));
 
+                        % compute closeness
                         dist = norm([pixelPosY pixelPosX] - [r c]);
                         closeness = exp(-0.5*((dist/sigmaD)^2));
 
                         sum = sum + iXi*closeness*similarity;
                         cSum = cSum + closeness*similarity;
-                    end
+                    % end
                 end
             end
             newImg(r,c) = sum / cSum;
         end
+        waitbar(r/R);
     end 
+    
+    close(h);
 end
 
 
