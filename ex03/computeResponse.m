@@ -1,9 +1,6 @@
-function [ R ] = computeResponse( img )
+function [ R ] = computeResponse( img,sigmaD,sigmaI,alpha )
 %BUILDM creates matrix M
 
-sigmaD = 1;
-sigmaI = 1;
-alpha = 0.04;
 
 filter = fspecial('gaussian',3*sigmaD,sigmaD);
 img = imfilter(img,filter,'conv');
