@@ -5,21 +5,21 @@ function [ finalResult ] = harrisLaplace( resolutionLevels, img, s0, k ,alpha, t
     nonMaxSupprRadius = 1;
     
     % find all harris-points
-    allHarris = zeros(R,C,resolutionLevels);
+    allHarris = zeros(R,C,resolutionLevels+1);
     
     
-    for n=1:resolutionLevels
+    for n=0:resolutionLevels
          
         harrisPoints=applyMultiscaleHarris(img,s0,k,n,alpha,tHar,nonMaxSupprRadius);
                 
-        allHarris(:,:,n) = harrisPoints;
+        allHarris(:,:,n+1) = harrisPoints;
         
     end
     
     
-    allLaplace = zeros(R, C, resolutionLevels);
+    allLaplace = zeros(R, C, resolutionLevels+1);
     
-    for i = 1:resolutionLevels
+    for i = 0:resolutionLevels
         
         sigmaD = s0 * k^i;
         
@@ -32,35 +32,37 @@ function [ finalResult ] = harrisLaplace( resolutionLevels, img, s0, k ,alpha, t
         Ixx = derivateX(Ix);
         Iyy = derivateY(Iy);
         
-        allLaplace(:,:,i) = abs((sigmaD^2)*(Ixx+Iyy));
+        allLaplace(:,:,i+1) = abs((sigmaD^2)*(Ixx+Iyy));
         
     end
     
     finalResult = zeros(R,C);
     
-    for s = 1:resolutionLevels
+    for s = 0:resolutionLevels
         for r = 1:R
             for c = 1:C
                 % if harris-point
-                if (allHarris(r,c,s) == 1)
+                if (allHarris(r,c,s+1) == 1)
                     isCandidate = true;
                     
-                    currLap = allLaplace(r,c,s);
+                    currLap = allLaplace(r,c,s+1);
                     
                     if(s > 1) 
-                        if( allLaplace(r,c,s-1) > currLap )
+                        if( allLaplace(r,c,s-1+1) > currLap )
                             isCandidate = false;
                         end                       
                     end
                     
                     if(s < resolutionLevels)
-                        if( allLaplace(r,c,s+1) > currLap )
+                        if( allLaplace(r,c,s+1+1) > currLap )
                             isCandidate = false;
                         end
                     end
                     
                     if(isCandidate == true)
-                        finalResult(r,c) = (currLap > tLap)*s;
+                        if(currLap > tLap)
+                            finalResult(r,c) = s+1;
+                        end
                     end
 
                 end
