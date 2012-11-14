@@ -16,9 +16,9 @@ for i = 1:3
 
     % localMaxima = applyMultiscaleHarris(img,s0,k,n(i),alpha,t,nonMaxSupprRadius);
 
-    R = computeResponse(img,s0,k,n(i),0.04);
+    R = computeResponse(img,s0,k,n(i),alpha);
 
-    % matrix containing 1 for all fields where R > 1000
+    % matrix containing 1 for all fields where R > 500
     threshold = (R>t);
 
     localMaxima = findLocalMaxima(R,nonMaxSupprRadius);
