@@ -22,7 +22,7 @@ function newImg = applyBilateralFilter(img,sigmaD,sigmaR)
 
             % inner loops iterate over elements of mask
             sum = 0;
-            cSum = 0;
+            cSum = 0; % for normalisation
             
             for y=-m:1:m
                 for x=-n:1:n
@@ -38,11 +38,13 @@ function newImg = applyBilateralFilter(img,sigmaD,sigmaR)
 						% intensity of pixel in image where the filter is applied
                         iXi = img(pixelPosY,pixelPosX);
 
-                        % compute similarity
+                        % compute similarity (gray-value-difference between
+                        % current pixel and center-pixel)
                         delta = abs(img(r,c)-iXi);
                         similarity = exp(-0.5*((delta/sigmaR)^2));
 
-                        % compute closeness
+                        % compute closeness (distance between current pixel
+                        % and center-pixel)
                         dist = norm([pixelPosY pixelPosX] - [r c]);
                         closeness = exp(-0.5*((dist/sigmaD)^2));
 
@@ -51,6 +53,7 @@ function newImg = applyBilateralFilter(img,sigmaD,sigmaR)
                     % end
                 end
             end
+            % normalize
             newImg(r,c) = sum / cSum;
         end
         waitbar(r/R);

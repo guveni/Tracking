@@ -7,8 +7,6 @@ function [ noisyImg ] = addGaussianNoise( img, sigma )
 
     randMatrix = normrnd(0,sigma,s);    % create a matrix with normal-distributet random-variables
     
-    
-    
     noisyImg = double(img)+randMatrix;
     noisyImg = max(zeros(s),noisyImg);  % set values smaller than 0 to 0
     noisyImg = min(ones(s)*255,noisyImg);   % set values larger than 255 to 255

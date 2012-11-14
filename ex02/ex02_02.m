@@ -1,5 +1,6 @@
 img = imread('lena.gif');
 
+% downsample image -> faster processing
 img = imresize(img,0.3,'bilinear');
 
 img = double(img);
