@@ -23,17 +23,6 @@ for i = 1:3
     imshow(harrisPoints,[0,1]);
     title(sprintf('harris %d',n(i)));
     
-%     subplot(3,3,3*i-2); 
-%     imshow(R,[0,4000]);
-%     title(sprintf('R %d',n(i)));
-%  
-%     subplot(3,3,3*i-1); 
-%     imshow(threshold,[0,1]);
-%     title(sprintf('t %d',n(i)));
-%     
-%     subplot(3,3,3*i);
-%     imshow(harrisPoints,[0,1]);
-%     title(sprintf('h %d',n(i)));
 
 end
 
