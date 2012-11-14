@@ -18,12 +18,13 @@ for i = 1:3
 
     harrisPoints = applyMultiscaleHarris(img,s0,k,n(i),alpha,t,nonMaxSupprRadius);
 
-    
+    [x_p,y_p] = find(harrisPoints);
     subplot(1,3,i);
-    imshow(harrisPoints,[0,1]);
+    imshow(img, [0, 255]);
+    hold on;
+    plot(y_p,x_p,'x');
+    hold off;
     title(sprintf('harris %d',n(i)));
-    
-
 end
 
 

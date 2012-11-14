@@ -16,3 +16,9 @@ allResults = harrisLaplace(resolutionLevels, img, s0, k, alpha, thresholdHarris,
 
 figure();
 imshow(allResults,[0 5]);
+
+[x_p,y_p] = find(allResults);
+imshow(img, [0, 255]);
+hold on;
+plot(y_p,x_p,'x');
+hold off;
