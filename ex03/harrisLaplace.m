@@ -11,10 +11,7 @@ function [ finalResult ] = harrisLaplace( resolutionLevels, img, s0, k ,alpha, t
     for n=1:resolutionLevels
          
         harrisPoints=applyMultiscaleHarris(img,s0,k,n,alpha,tHar,nonMaxSupprRadius);
-        
-        figure();
-        imshow(harrisPoints,[0 1]);
-        
+                
         allHarris(:,:,n) = harrisPoints;
         
     end
@@ -63,7 +60,7 @@ function [ finalResult ] = harrisLaplace( resolutionLevels, img, s0, k ,alpha, t
                     end
                     
                     if(isCandidate == true)
-                        finalResult(r,c) = (currLap > tLap);
+                        finalResult(r,c) = (currLap > tLap)*s;
                     end
 
                 end
