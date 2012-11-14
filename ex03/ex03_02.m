@@ -7,4 +7,7 @@ alpha = 0.06;
 thresholdHigh = 1500;
 thresholdLow = 10;
 
-harrisLaplace(resolutionLevels, img, s0, k, alpha, thresholdHigh, thresholdLow);
+allResults = harrisLaplace(resolutionLevels, img, s0, k, alpha, thresholdHigh, thresholdLow);
+
+figure();
+imshow(allResults,[0 1]);
