@@ -21,15 +21,15 @@ function [ finalResult ] = harrisLaplace( resolutionLevels, img, s0, k ,alpha, t
         harrisPoints = localMaxima.*thresholded;
         
         
-        R = computeResponse(img,s0,k,n,alpha);
+        RR = computeResponse(img,s0,k,n,alpha);
 
-    % matrix containing 1 for all fields where R > 500
-    threshold = (R>500);
+        % matrix containing 1 for all fields where RR > 500
+        threshold = (RR>1500);
 
-    localMaxima = findLocalMaxima(R,nonMaxSupprRadius);
+        localMaxima = findLocalMaxima(RR,nonMaxSupprRadius);
 
-    harrisPoints = localMaxima.*threshold;
-        figure()
+        harrisPoints = localMaxima.*threshold;
+        figure();
         imshow(harrisPoints,[0 1]);
         
         
