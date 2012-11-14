@@ -7,32 +7,13 @@ function [ finalResult ] = harrisLaplace( resolutionLevels, img, s0, k ,alpha, t
     % find all harris-points
     allHarris = zeros(R,C,resolutionLevels);
     
-    oriImg = img;
     
     for n=1:resolutionLevels
          
-        img = oriImg;
-        response = computeResponse(img, s0, k, n, alpha);
-    
-        thresholded = (response > tHar);
-   
-        localMaxima = findLocalMaxima(response, nonMaxSupprRadius);
-    
-        harrisPoints = localMaxima.*thresholded;
+        harrisPoints=applyMultiscaleHarris(img,s0,k,n,alpha,tHar,nonMaxSupprRadius);
         
-        
-        RR = computeResponse(img,s0,k,n,alpha);
-
-        % matrix containing 1 for all fields where RR > 500
-        threshold = (RR>1500);
-
-        localMaxima = findLocalMaxima(RR,nonMaxSupprRadius);
-
-        harrisPoints = localMaxima.*threshold;
         figure();
         imshow(harrisPoints,[0 1]);
-        
-        
         
         allHarris(:,:,n) = harrisPoints;
         
@@ -42,9 +23,6 @@ function [ finalResult ] = harrisLaplace( resolutionLevels, img, s0, k ,alpha, t
     allLaplace = zeros(R, C, resolutionLevels);
     
     for i = 1:resolutionLevels
-        
-        img = oriImg;
-        
         
         sigmaD = s0 * k^i;
         
@@ -69,24 +47,25 @@ function [ finalResult ] = harrisLaplace( resolutionLevels, img, s0, k ,alpha, t
                 % if harris-point
                 if (allHarris(r,c,s) == 1)
                     isCandidate = true;
-%                     if(s > 1) 
-%                         if( allLaplace(r,c,s-1) > allLaplace(r,c,s) )
-%                             isCandidate = false;
-%                         end                       
-%                     end
-%                     
-%                     if(s < resolutionLevels)
-%                         if( allLaplace(r,c,s+1) > allLaplace(r,c,s) )
-%                             isCandidate = false;
-%                         end
-%                     end
-%                     
-% 
-%                     if(isCandidate == true)
-%                         finalResult(r,c) = (s > tLap);
-%                     end
+                    
+                    currLap = allLaplace(r,c,s);
+                    
+                    if(s > 1) 
+                        if( allLaplace(r,c,s-1) > currLap )
+                            isCandidate = false;
+                        end                       
+                    end
+                    
+                    if(s < resolutionLevels)
+                        if( allLaplace(r,c,s+1) > currLap )
+                            isCandidate = false;
+                        end
+                    end
+                    
+                    if(isCandidate == true)
+                        finalResult(r,c) = (currLap > tLap);
+                    end
 
-finalResult(r,c) = s;
                 end
             end
         end

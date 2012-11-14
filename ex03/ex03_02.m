@@ -3,6 +3,8 @@ img = imread('lena.gif');
  img = imread('harris.jpg');
  img = rgb2gray(img);
 
+ img = double(img);
+ 
 resolutionLevels = 5;
 s0 = 1.5;
 k = 1.2;

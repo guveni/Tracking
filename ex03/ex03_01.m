@@ -8,23 +8,15 @@ img = double(img);
 s0 = 1.5;
 k = 1.2;
 n = [0 5 17];
-alpha = 0.04;
-t = 500;
+alpha = 0.06;
+t = 50;
 nonMaxSupprRadius = 1;
 
 for i = 1:3
 
-    % localMaxima = applyMultiscaleHarris(img,s0,k,n(i),alpha,t,nonMaxSupprRadius);
+    harrisPoints = applyMultiscaleHarris(img,s0,k,n(i),alpha,t,nonMaxSupprRadius);
 
-    R = computeResponse(img,s0,k,n(i),alpha);
 
-    % matrix containing 1 for all fields where R > 500
-    threshold = (R>t);
-
-    localMaxima = findLocalMaxima(R,nonMaxSupprRadius);
-
-    harrisPoints = localMaxima.*threshold;
- 
     subplot(1,3,i);
     imshow(harrisPoints,[0,1]);
     title(sprintf('harris %d',n(i)));

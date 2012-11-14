@@ -25,6 +25,7 @@ function [ R ] = computeResponse( img,s0,k,n,alpha )
     trace = Ixx+Iyy;
 
     R = det - alpha * trace.^2;
+    
 
 end
 
