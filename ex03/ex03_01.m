@@ -1,7 +1,7 @@
 img =  imread('lena.gif');
 
- img = imread('harris.jpg');
- img = rgb2gray(img);
+%  img = imread('harris.jpg');
+%  img = rgb2gray(img);
 
 img = double(img);
 
