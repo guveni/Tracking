@@ -1,5 +1,5 @@
 function [ R ] = computeResponse( img,s0,k,n,alpha )
-%BUILDM creates matrix M
+%COMPUTERESPONSE computes the response of the harris-approach
 
     sigmaI = s0*k^n;
     sigmaD = 0.7*sigmaI;
@@ -26,6 +26,5 @@ function [ R ] = computeResponse( img,s0,k,n,alpha )
 
     R = det - alpha * trace.^2;
     
-
 end
 

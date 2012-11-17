@@ -7,7 +7,12 @@ function [ Iy ] = derivateY( img )
 
 Iy = zeros(R,C);
 
+% forward difference
 Iy(1:R-1,:) = img(2:R,:) - img(1:R-1,:);
+
+% central difference
+% Iy(2:R-1,:) = img(3:R,:) - img(1:R-2,:);
+
 
 end
 

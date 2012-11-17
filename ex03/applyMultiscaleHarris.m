@@ -1,7 +1,5 @@
 function [ harrisPoints ] = applyMultiscaleHarris( img,s0,k,n,alpha,t,nonMaxRadius )
 %APPLYMULTISCALEHARRIS applies a multiscale-harris-filter to an image
-%   img: input-image
-%   s0: 
 
     R = computeResponse(img,s0,k,n,alpha);
 

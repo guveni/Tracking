@@ -15,4 +15,13 @@ thresholdLaplace = 10;
 allResults = harrisLaplace(resolutionLevels, img, s0, k, alpha, thresholdHarris, thresholdLaplace);
 
 figure();
-imshow(allResults,[0 5]);
+%imshow(allResults,[0 5]);
+
+[x_p,y_p] = find(allResults);
+imshow(img, [0, 255]);
+hold on;
+plot(y_p,x_p,'x','Color','red');
+hold off;
+
+figure();
+imshow(allResults,[0 6]);
