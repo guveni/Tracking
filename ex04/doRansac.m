@@ -1,4 +1,4 @@
-function [ H,consMax ] = doRansac( p1,p2, s, t, T, N)
+function [ H,consMax,sMax,Hbest ] = doRansac( p1,p2, s, t, T, N)
 %DORANSAC Summary of this function goes here
 %   Detailed explanation goes here
 %   p1: points in img1
@@ -40,6 +40,8 @@ function [ H,consMax ] = doRansac( p1,p2, s, t, T, N)
         
         if size(currCons,2) > size(consMax,2)
             consMax = currCons;
+            sMax = selPoints;
+            Hbest = H;
         end
         
         if size(currCons,2) >= T

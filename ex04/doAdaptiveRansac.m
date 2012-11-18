@@ -1,4 +1,4 @@
-function [ H,consMax ] = doAdaptiveRansac( p1,p2,s,t,p )
+function [ H,consMax,sMax,Hbest ] = doAdaptiveRansac( p1,p2,s,t,p )
 %DOADAPTIVERANSAC Summary of this function goes here
 %   p1: points in img1
 %   p2: points in img2
@@ -54,7 +54,9 @@ function [ H,consMax ] = doAdaptiveRansac( p1,p2,s,t,p )
 
        if numCurrInliers > size(consMax,2)
            consMax = currCons;
+           sMax = selPoints;
            numMaxInliers = numCurrInliers;
+           Hbest = H;
        end
        
        e = 1 - (numMaxInliers)/(numPoints);
@@ -68,7 +70,17 @@ function [ H,consMax ] = doAdaptiveRansac( p1,p2,s,t,p )
     
     H = doDLT(consPoints1,consPoints2);
 
-
+    
+%     calcP2 = H*p2;
+%     
+%     calcP2 = normalizePoints(calcP2);
+% 
+%     inliers=[];
+%     for ii=1:numPoints
+%            if norm( p2(:,ii) - calcP2(:,ii) ) < t
+%                inliers = [inliers ii];
+%            end
+%     end
 
 end
 

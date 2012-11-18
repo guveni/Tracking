@@ -10,6 +10,7 @@ function [ pos ] = selectSamples( nSelect,nAll )
         pos(i) = list(r);
         list(r) = [];
     end
+    
 
 end
 
