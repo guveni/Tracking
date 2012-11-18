@@ -1,21 +1,21 @@
-function [ H ] = doRansac( p1,p2, s, t, T, N)
+function [ H,consMax ] = doRansac( p1,p2, s, t, T, N)
 %DORANSAC Summary of this function goes here
 %   Detailed explanation goes here
 %   p1: points in img1
 %   p2: points in img2
-%   s: number of points regarded at a time
+%   s: number of points regarded at a time (minimum count of points for DLT is 4)
 %   t: threshold for distance
 %   T: threshold for number of inliers
 %   N: max-iterations
 
     consMax = [];
-    num = size(p1,2);
+    numPoints = size(p1,2);
     
     p1 = normalizePoints(p1);
     p2 = normalizePoints(p2);
     
     for i=1:N
-        selPoints = selectPositions(s,size(p1,2));
+        selPoints = selectSamples(s,size(p1,2));
         
         dltPoints1 = zeros(3,s);
         dltPoints2 = zeros(3,s);
@@ -32,7 +32,7 @@ function [ H ] = doRansac( p1,p2, s, t, T, N)
         
         currCons = [];
         
-        for ii=1:num
+        for ii=1:numPoints
             if norm( p2(:,ii) - calcP2(:,ii) ) < t
                 currCons = [currCons ii];
             end
@@ -70,22 +70,12 @@ function [ H ] = doRansac( p1,p2, s, t, T, N)
     
 end
 
-function [pos] = selectPositions(nSelect,nAll)
-    list = linspace(1,nAll,nAll);
-    pos = zeros(1,nSelect);
-    
-    for i=1:nSelect
-        r = randi(size(list));
-        pos(i) = list(r);
-        list(r) = [];
-    end
-    
-end
 
-function [points] = getConsensusPoints(p,pos)
-    
-    points = zeros(3,size(pos,2));
-    for i=1:size(pos,2)
-        points(:,i) = p(:,pos(i));
-    end
-end
+
+% function [points] = getConsensusPoints(p,pos)
+%     
+%     points = zeros(3,size(pos,2));
+%     for i=1:size(pos,2)
+%         points(:,i) = p(:,pos(i));
+%     end
+% end
