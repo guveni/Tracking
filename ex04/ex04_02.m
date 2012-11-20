@@ -65,7 +65,7 @@ p = 0.999;
 %   t: threshold for distance
 %   p: probability to have best solution
 
-% [H,cons,tmp,Hbest]=doAdaptiveRansac(p1,p2,s,t,p);
+[H,cons,tmp,Hbest]=doAdaptiveRansac(p1,p2,s,t,p);
 
 
  % only H and cons are required
@@ -81,7 +81,7 @@ calcP2 = normalizePoints(calcP2);
 calcP22 = normalizePoints(calcP22);
 
 
-figure()
+figure(1)
 
 h1 = plot(p2(1,:),p2(2,:),'xm','MarkerSize',5);    %# Plot line 1
 
@@ -101,7 +101,7 @@ for i = 1:size(p2,2)
 end
 
 
-figure()
+figure(2)
 
 h1 = plot(p2(1,:),p2(2,:),'xm','MarkerSize',5);    %# Plot line 1
 
