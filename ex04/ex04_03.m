@@ -22,33 +22,60 @@ p2(3,:) = ones(1,size(p2,2));
 [H,cons,tmp,Hbest]=doAdaptiveRansac(p1,p2,4,10,0.99);
 H=Hbest;
 [h,w] = size(I1);
+I1 = I_1;
+I2 = I_2;
+box2 = [1  size(I2,2) size(I2,2)  1 ;
+        1  1           size(I2,1)  size(I2,1) ;
+        1  1           1            1 ] ;
+box2_ = inv(H) * box2 ;
+box2_(1,:) = box2_(1,:) ./ box2_(3,:) ;
+box2_(2,:) = box2_(2,:) ./ box2_(3,:) ;
+ur = min([1 box2_(1,:)]):max([size(I1,2) box2_(1,:)]) ;
+vr = min([1 box2_(2,:)]):max([size(I1,1) box2_(2,:)]) ;
 
-corners = [
-0 0 w w;
-0 h 0 h;
-1 1 1 1
-];
+[u,v] = meshgrid(ur,vr) ;
+im1_ = vl_imwbackward(im2double(I1),u,v) ;
 
-cornersTranslated = inv(H)*corners;
+z_ = H(3,1) * u + H(3,2) * v + H(3,3) ;
+u_ = (H(1,1) * u + H(1,2) * v + H(1,3)) ./ z_ ;
+v_ = (H(2,1) * u + H(2,2) * v + H(2,3)) ./ z_ ;
+im2_ = vl_imwbackward(im2double(I2),u_,v_) ;
 
-left = min(cornersTranslated(1,:));
-right = max(cornersTranslated(1,:));
+mass = ~isnan(im1_) + ~isnan(im2_) ;
+im1_(isnan(im1_)) = 0 ;
+im2_(isnan(im2_)) = 0 ;
+mosaic = (im1_ + im2_) ./ mass ;
 
-top = min(cornersTranslated(2,:));
-bottom = max(cornersTranslated(2,:));
+figure(2) ; clf ;
+imagesc(mosaic) ; axis image off ;
+title('Mosaic') ;
 
-calcP2 = H*p1;
-calcP22 = Hbest*p1;
+% corners = [
+% 0 0 w w;
+% 0 h 0 h;
+% 1 1 1 1
+% ];
+% 
+% cornersTranslated = inv(H)*corners;
+% 
+% left = min(cornersTranslated(1,:));
+% right = max(cornersTranslated(1,:));
+% 
+% top = min(cornersTranslated(2,:));
+% bottom = max(cornersTranslated(2,:));
+% 
+% calcP2 = H*p1;
+% calcP22 = Hbest*p1;
+% 
+% calcP2 = normalizePoints(calcP2);
+% calcP22 = normalizePoints(calcP22);
 
-calcP2 = normalizePoints(calcP2);
-calcP22 = normalizePoints(calcP22);
 
-
-figure(1)
-imshow(I_1);
-
-hold on;
-h1 = plot(p1(1,:),p1(2,:),'xm','MarkerSize',5);    %# Plot line 1
+% figure(1)
+% imshow(I_1);
+% 
+% hold on;
+% h1 = plot(p1(1,:),p1(2,:),'xm','MarkerSize',5);    %# Plot line 1
 
 
 % h2 = plot(calcP2(1,:),calcP2(2,:),'ob','MarkerSize',5);  %# Plot line 2
@@ -67,12 +94,12 @@ h1 = plot(p1(1,:),p1(2,:),'xm','MarkerSize',5);    %# Plot line 1
 
 
 
-figure(2)
-imshow(I_2);
-
-hold on;
-h1 = plot(calcP2(1,:),calcP2(2,:),'xm','MarkerSize',5);    %# Plot line 1
-h1 = plot(p2(1,:),p2(2,:),'or','MarkerSize',5);    %# Plot line 1
+% figure(2)
+% imshow(I_2);
+% 
+% hold on;
+% h1 = plot(calcP2(1,:),calcP2(2,:),'xm','MarkerSize',5);    %# Plot line 1
+% h1 = plot(p2(1,:),p2(2,:),'or','MarkerSize',5);    %# Plot line 1
 
 % 
 % h2 = plot(calcP2(1,:),calcP2(2,:),'ob','MarkerSize',5);  %# Plot line 2
