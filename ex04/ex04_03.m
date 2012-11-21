@@ -59,7 +59,7 @@ warp2(isnan(warp2)) = 0 ;
 mosaic = (warp1 + warp2) ./ mass ;
 
 
-figure(2) ; clf ;
+figure(2) ;
 imagesc(mosaic) ; axis image off ;
 title('Mosaic') ;
 
