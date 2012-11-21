@@ -1,5 +1,5 @@
 function [points] = getConsensusPoints(p,pos)
-%GETCONSENSUSPOINTS Summary of this function goes here
+%GETCONSENSUSPOINTS returns a list containing points of p at position pos
 %   Detailed explanation goes here
     
     points = zeros(3,size(pos,2));

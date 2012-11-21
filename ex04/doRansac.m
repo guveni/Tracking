@@ -7,14 +7,23 @@ function [ H,consMax,sMax,Hbest ] = doRansac( p1,p2, s, t, T, N)
 %   t: threshold for distance
 %   T: threshold for number of inliers
 %   N: max-iterations
+% output:
+% H: the homography-matrix after the algorithm (calculated from all inliers)
+% consMax: consens of the best run
+% sMax: the set of s points that lead to the largest consens
+% Hbest: the homography-matrix calculated for s data-points that lead to the most inliers
 
     consMax = [];
+    sMax = [];
     numPoints = size(p1,2);
     
     p1 = normalizePoints(p1);
     p2 = normalizePoints(p2);
     
     for i=1:N
+        
+        % a) Randomly select a sample of s data points from S 
+        % and instantiate the model from this subset. 
         selPoints = selectSamples(s,size(p1,2));
         
         dltPoints1 = zeros(3,s);
@@ -30,13 +39,18 @@ function [ H,consMax,sMax,Hbest ] = doRansac( p1,p2, s, t, T, N)
         calcP2 = H*p1;
         calcP2 = normalizePoints(calcP2);
         
+        % b) Determine the set of data points Si that are within a distance 
+        % threshold t of the model.
+        % The set Si is the consensus set of the sample and defines the inliers of S.
         currCons = [];
-        
+                
         for ii=1:numPoints
+            % check if distance < t -> inliers
             if norm( p2(:,ii) - calcP2(:,ii) ) < t
                 currCons = [currCons ii];
             end
         end
+        
         
         if size(currCons,2) > size(consMax,2)
             consMax = currCons;
@@ -44,13 +58,18 @@ function [ H,consMax,sMax,Hbest ] = doRansac( p1,p2, s, t, T, N)
             Hbest = H;
         end
         
+        % c) If the size of Si (the number of inliers) is greater than some 
+        % threshold T, re-estimate the model using all the points in Si and 
+        % terminate.
         if size(currCons,2) >= T
             break;
         end
         
-        
+        % d) If the size of Si is less than T, select a new subset and repeat the above.
     end;
     
+    % e) After N trials the largest consensus set Si is selected, and the 
+    % model is re-estimated using all the points in the subset Si.
     consPoints1 = getConsensusPoints(p1,consMax);
     consPoints2 = getConsensusPoints(p2,consMax);
     
@@ -72,12 +91,3 @@ function [ H,consMax,sMax,Hbest ] = doRansac( p1,p2, s, t, T, N)
     
 end
 
-
-
-% function [points] = getConsensusPoints(p,pos)
-%     
-%     points = zeros(3,size(pos,2));
-%     for i=1:size(pos,2)
-%         points(:,i) = p(:,pos(i));
-%     end
-% end

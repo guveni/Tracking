@@ -14,37 +14,50 @@ matches = vl_ubcmatch(descriptors1, descriptors2) ;
 
 p1 = frames1(1:2,matches(1,:));
 
+% write ones to third line (normalized vectors)
 p1(3,:) = ones(1,size(p1,2));
 
 p2 = frames2(1:2,matches(2,:));
+
+% write ones to third line (normalized vectors)
 p2(3,:) = ones(1,size(p2,2));
 
-[H,cons,tmp,Hbest]=doAdaptiveRansac(p1,p2,4,10,0.99);
-H=Hbest;
-[h,w] = size(I1);
+[H,cons,tmp,Hbest]=doAdaptiveRansac(p1,p2,4,0.5,0.999999);
+%[H,cons,tmp,Hbest]=doRansac(p1,p2,4,0.5,100,10000);
+%H=Hbest;
+
+[h1,w1] = size(I1);
+[h2,w2] = size(I2);
+
 I1 = I_1;
 I2 = I_2;
-box2 = [1  size(I2,2) size(I2,2)  1 ;
-        1  1           size(I2,1)  size(I2,1) ;
-        1  1           1            1 ] ;
-box2_ = inv(H) * box2 ;
-box2_(1,:) = box2_(1,:) ./ box2_(3,:) ;
-box2_(2,:) = box2_(2,:) ./ box2_(3,:) ;
-ur = min([1 box2_(1,:)]):max([size(I1,2) box2_(1,:)]) ;
-vr = min([1 box2_(2,:)]):max([size(I1,1) box2_(2,:)]) ;
+box2 = [1  w2 w2  1 ;
+        1   1 h2 h2 ;
+        1   1  1  1 ] ;
+    
+% calc bounding box around warped image
+bb = inv(H) * box2;
 
-[u,v] = meshgrid(ur,vr) ;
-im1_ = vl_imwbackward(im2double(I1),u,v) ;
+rangeC = min([1 bb(1,:)./bb(3,:)]):max([w1 bb(1,:)./bb(3,:)]);
+rangeR = min([1 bb(2,:)./bb(3,:)]):max([h1 bb(2,:)./bb(3,:)]);
 
-z_ = H(3,1) * u + H(3,2) * v + H(3,3) ;
-u_ = (H(1,1) * u + H(1,2) * v + H(1,3)) ./ z_ ;
-v_ = (H(2,1) * u + H(2,2) * v + H(2,3)) ./ z_ ;
-im2_ = vl_imwbackward(im2double(I2),u_,v_) ;
+% get all points in the box to which the image will be translated and
+% calculate their color by doing backwards warping
 
-mass = ~isnan(im1_) + ~isnan(im2_) ;
-im1_(isnan(im1_)) = 0 ;
-im2_(isnan(im2_)) = 0 ;
-mosaic = (im1_ + im2_) ./ mass ;
+[u,v] = meshgrid(rangeC,rangeR) ;
+warp1 = vl_imwbackward(im2double(I1),u,v) ;
+
+z = H(3,1) * u + H(3,2) * v + H(3,3) ;
+x = (H(1,1) * u + H(1,2) * v + H(1,3)) ./ z ;
+y = (H(2,1) * u + H(2,2) * v + H(2,3)) ./ z ;
+
+warp2 = vl_imwbackward(im2double(I2),x,y) ;
+
+mass = ~isnan(warp1) + ~isnan(warp2) ;
+warp1(isnan(warp1)) = 0 ;
+warp2(isnan(warp2)) = 0 ;
+mosaic = (warp1 + warp2) ./ mass ;
+
 
 figure(2) ; clf ;
 imagesc(mosaic) ; axis image off ;

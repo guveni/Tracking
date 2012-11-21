@@ -1,6 +1,5 @@
 function [ p ] = normalizePoints( p )
-%NORMALIZEPOINTS Summary of this function goes here
-%   Detailed explanation goes here
+%NORMALIZEPOINTS normalize vektors 
 
     for i=1:size(p,2)
        if p(end,i) ~= 0

@@ -6,6 +6,12 @@ function [ H,consMax,sMax,Hbest ] = doAdaptiveRansac( p1,p2,s,t,p )
 %   t: threshold for distance
 %   p: probability to have best solution
 
+% output:
+% H: the homography-matrix after the algorithm (calculated from all sinliers)
+% consMax: consens of the best run
+% sMax: the set of s points that lead to the largest consens
+% Hbest: the homography-matrix calculated for s data-points that lead to the most inliers
+
 % N = inf, sample_count = 0.
 %
 %  While N > sample_count repeat
@@ -65,6 +71,7 @@ function [ H,consMax,sMax,Hbest ] = doAdaptiveRansac( p1,p2,s,t,p )
        sample_count = sample_count+1;
     end
 
+    % not required according to the exercise-sheet, but done for comparing
     consPoints1 = getConsensusPoints(p1,consMax);
     consPoints2 = getConsensusPoints(p2,consMax);
     
