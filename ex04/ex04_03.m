@@ -2,12 +2,12 @@
 
 I_1 = imread('tum_mi_1.JPG') ;
 %I = imread('tum_mi_2.JPG') ;
-I1 = single(rgb2gray(I_1)) ;
-[frames1,descriptors1] = vl_sift(I1) ;
+% I1 = single(rgb2gray(I_1)) ;
+[frames1,descriptors1] = vl_sift(single(rgb2gray(I_1))) ;
 
 I_2 = imread('tum_mi_2.JPG') ;
-I2 = single(rgb2gray(I_2)) ;
-[frames2,descriptors2] = vl_sift(I2) ;
+% I2 = single(rgb2gray(I_2)) ;
+[frames2,descriptors2] = vl_sift(single(rgb2gray(I_2))) ;
 
 matches = vl_ubcmatch(descriptors1, descriptors2) ;
 
@@ -26,8 +26,8 @@ p2(3,:) = ones(1,size(p2,2));
 %[H,cons,tmp,Hbest]=doRansac(p1,p2,4,0.5,100,10000);
 %H=Hbest;
 
-[h1,w1] = size(I1);
-[h2,w2] = size(I2);
+[h1,w1,d] = size(I_1);
+[h2,w2,d] = size(I_2);
 
 I1 = I_1;
 I2 = I_2;
@@ -53,15 +53,43 @@ y = (H(2,1) * u + H(2,2) * v + H(2,3)) ./ z ;
 
 warp2 = vl_imwbackward(im2double(I2),x,y) ;
 
-mass = ~isnan(warp1) + ~isnan(warp2) ;
-warp1(isnan(warp1)) = 0 ;
-warp2(isnan(warp2)) = 0 ;
-mosaic = (warp1 + warp2) ./ mass ;
+
+mosaic = zeros(size(warp1));
+for r = 1:size(warp1,1)
+    for c = 1:size(warp1,2)
+        for d = 1:3
+            validColors = 0;
+            
+            c1 = warp1(r,c,d);
+            c2 = warp2(r,c,d);
+            
+            if isnan(c1)
+                c1 = 0;
+            else
+                validColors = validColors+1;
+            end
+            
+             if isnan(c2)
+                c2 = 0;
+            else
+                validColors = validColors+1;
+             end
+            
+             mosaic(r,c,d) = (c1+c2) / validColors;
+        end
+    end
+end
+
 
 
 figure(2) ;
 imagesc(mosaic) ; axis image off ;
 title('Mosaic') ;
+
+
+
+
+
 
 % corners = [
 % 0 0 w w;
