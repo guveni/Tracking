@@ -29,8 +29,8 @@ p2(3,:) = ones(1,size(p2,2));
 [h1,w1,d] = size(I_1);
 [h2,w2,d] = size(I_2);
 
-I1 = I_1;
-I2 = I_2;
+% I1 = I_1;
+% I2 = I_2;
 box2 = [1  w2 w2  1 ;
         1   1 h2 h2 ;
         1   1  1  1 ] ;
@@ -45,13 +45,13 @@ rangeR = min([1 bb(2,:)./bb(3,:)]):max([h1 bb(2,:)./bb(3,:)]);
 % calculate their color by doing backwards warping
 
 [u,v] = meshgrid(rangeC,rangeR) ;
-warp1 = vl_imwbackward(im2double(I1),u,v) ;
+warp1 = vl_imwbackward(im2double(I_1),u,v) ;
 
 z = H(3,1) * u + H(3,2) * v + H(3,3) ;
 x = (H(1,1) * u + H(1,2) * v + H(1,3)) ./ z ;
 y = (H(2,1) * u + H(2,2) * v + H(2,3)) ./ z ;
 
-warp2 = vl_imwbackward(im2double(I2),x,y) ;
+warp2 = vl_imwbackward(im2double(I_2),x,y) ;
 
 
 mosaic = zeros(size(warp1));
