@@ -56,7 +56,7 @@ N = 2000;
 %   T: threshold for number of inliers
 %   N: max-iterations
 
-[H,cons,tmp,Hbest] = doRansac(p1,p2,s,t,T,N);
+% [H,cons,tmp,Hbest] = doRansac(p1,p2,s,t,T,N);
 
 p = 0.999;
 %   p1: points in img1

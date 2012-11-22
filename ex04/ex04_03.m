@@ -54,7 +54,7 @@ y = (H(2,1) * u + H(2,2) * v + H(2,3)) ./ z ;
 warp2 = vl_imwbackward(im2double(I_2),x,y) ;
 
 
-mosaic = zeros(size(warp1));
+stitchedImage = zeros(size(warp1));
 for r = 1:size(warp1,1)
     for c = 1:size(warp1,2)
         for d = 1:3
@@ -75,7 +75,11 @@ for r = 1:size(warp1,1)
                 validColors = validColors+1;
              end
             
-             mosaic(r,c,d) = (c1+c2) / validColors;
+            if validColors > 0
+                stitchedImage(r,c,d) = (c1+c2) / validColors;
+            else
+                stitchedImage(r,c,d) = 1;
+            end
         end
     end
 end
@@ -83,8 +87,8 @@ end
 
 
 figure(2) ;
-imagesc(mosaic) ; axis image off ;
-title('Mosaic') ;
+imagesc(stitchedImage) ; axis image off ;
+title('Stitched Image') ;
 
 
 

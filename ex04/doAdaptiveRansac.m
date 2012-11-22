@@ -72,6 +72,8 @@ function [ H,consMax,sMax,Hbest ] = doAdaptiveRansac( p1,p2,s,t,p )
     end
 
     % not required according to the exercise-sheet, but done for comparing
+    % reasons
+    % Hbest is a better approximation than H
     consPoints1 = getConsensusPoints(p1,consMax);
     consPoints2 = getConsensusPoints(p2,consMax);
     

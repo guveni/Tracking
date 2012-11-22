@@ -13,6 +13,21 @@ function [ H,consMax,sMax,Hbest ] = doRansac( p1,p2, s, t, T, N)
 % sMax: the set of s points that lead to the largest consens
 % Hbest: the homography-matrix calculated for s data-points that lead to the most inliers
 
+%     a) Randomly select a sample of s data points from S and instantiate the model from this
+%     subset.    
+%     
+%     b) Determine the set of data points Si that are within a distance threshold t of the model.
+%     The set Si is the consensus set of the sample and defines the inliers of S.
+%     
+%     c) If the size of Si (the number of inliers) is greater than some threshold T, re-estimate
+%     the model using all the points in Si and terminate.
+%     
+%     d) If the size of Si is less than T, select a new subset and repeat the above.
+%     
+%     e) After N trials the largest consensus set Si is selected, and the model is re-estimated
+%     using all the points in the subset Si.
+
+
     consMax = [];
     sMax = [];
     numPoints = size(p1,2);
@@ -75,19 +90,7 @@ function [ H,consMax,sMax,Hbest ] = doRansac( p1,p2, s, t, T, N)
     
     H = doDLT(consPoints1,consPoints2);
     
-%     a) Randomly select a sample of s data points from S and instantiate the model from this
-%     subset.    
-%     
-%     b) Determine the set of data points Si that are within a distance threshold t of the model.
-%     The set Si is the consensus set of the sample and defines the inliers of S.
-%     
-%     c) If the size of Si (the number of inliers) is greater than some threshold T, re-estimate
-%     the model using all the points in Si and terminate.
-%     
-%     d) If the size of Si is less than T, select a new subset and repeat the above.
-%     
-%     e) After N trials the largest consensus set Si is selected, and the model is re-estimated
-%     using all the points in the subset Si.
+
     
 end
 
