@@ -36,7 +36,7 @@ function [ finalResult ] = harrisLaplace( resolutionLevels, img, s0, k ,alpha, t
         Iyy = derivateY(Iy);
         
         allLaplace(:,:,i+1) = abs((sigma^2)*(Ixx+Iyy));
-                
+        
     end
     
     finalResult = zeros(R,C);

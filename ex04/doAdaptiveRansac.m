@@ -65,6 +65,11 @@ function [ H,consMax,sMax,Hbest ] = doAdaptiveRansac( p1,p2,s,t,p )
            Hbest = H;
        end
        
+       % e = 1-w =  1 - (number_of_inliers)/(total_number_of_points)
+       % ((1-w^s)^N = 1-p
+       % w = prob(any point is inlier)
+       % p = prob(all  points are inliers)
+       
        e = 1 - (numMaxInliers)/(numPoints);
        N = log(1 - p)/log(1 - (1 - e)^s);
 

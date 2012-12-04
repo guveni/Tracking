@@ -44,7 +44,7 @@ rangeR = min([1 bb(2,:)./bb(3,:)]):max([h1 bb(2,:)./bb(3,:)]);
 % get all points in the box to which the image will be translated and
 % calculate their color by doing backwards warping
 
-[u,v] = meshgrid(rangeC,rangeR) ;
+[u,v] = meshgrid(rangeC,rangeR);
 warp1 = vl_imwbackward(im2double(I_1),u,v) ;
 
 z = H(3,1) * u + H(3,2) * v + H(3,3) ;

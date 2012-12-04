@@ -42,7 +42,7 @@ p2 = normalizePoints(p2);
 
 
 s = 4;
-t = 1;
+t = 0.3;
 T = 7;
 N = 2000;
 

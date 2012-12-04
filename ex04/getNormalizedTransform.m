@@ -2,7 +2,7 @@ function [ M ] = getNormalizedTransform( p )
 %GETNORMALIZEDTRANSFORM 
 % returns matrix that translates points in the way that the origin is in
 % the center of them and scales them so that their average distance to
-% origin is 1
+% origin is sqrt(2)
 
     N = size(p,2);
     
@@ -17,7 +17,7 @@ function [ M ] = getNormalizedTransform( p )
     % calc average distance of points to origin
     dist = mean(  sqrt(  centralisedX.^2  +  centralisedY.^2  )  ) ;
         
-    % scale so that average distance will become 1
+    % scale so that average distance will become sqrt(1)
     scale = sqrt(2)/dist;
     
     % matrix for scaling
