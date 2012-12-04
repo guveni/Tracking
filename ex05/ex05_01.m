@@ -1,15 +1,16 @@
 
-fernsFileName = fern.model;
+fernsFileName = 'fern.model';
 
 
-
+% pseudo-code:
+%
 % if file.exists(fernModel)
-%     ferns = loadFerns()
+%     [harrisPoints, samplePoints, histograms] = loadFerns(fernsFileName)
 % else
-%     ferns = trainFerns(img1);
-%     saveFerns(ferns);
+%     [harrisPoints, samplePoints, histograms] = trainFerns(img1);
+%     saveFerns(harrisPoints,samplePoints,histograms);
 % end;
 %
-% matches = findMatchesWithFerns(ferns,img1,img2)
+% matches = findMatchesWithFerns(harrisPoints,samplePoints,histograms,img2)
 %
 % % do the same as in last exercise (RANSAC, warping)
