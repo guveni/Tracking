@@ -34,10 +34,10 @@ resPoints = resPoints(:,1:ctr);
 
 backwarps = 10;
 
-theta = (2*pi) * rand(backwarps);
-phi = (2*pi) * rand(backwarps);
+theta = (2*pi) * rand(backwarps, 1);
+phi = (2*pi) * rand(backwarps, 1);
 
-lambdas = 0.6 + 0.9 * rand(2, backwarps);
+lambdas = 0.6 + 0.9 * rand(backwarps, 2);
 
 %build the rotation/scale matrices
 rotationTheta = zeros(backwarps, 2, 2);
@@ -56,8 +56,8 @@ for i=1:backwarps
     invRotationPhi(i,:,:) = [cos(phi(i)) -sin(phi(i)); 
                             sin(phi(i)) cos(phi(i))];
                 
-    scaling(i,:,:) = [lambdas(1, i) 0;
-                    0 lambdas(2, i)];
+    scaling(i,:,:) = [lambdas(i, 1) 0;
+                    0 lambdas(i, 2)];
 
 end
 
@@ -65,19 +65,22 @@ end
 %and build new image patches
 patches = ones(size(harrisPoints, 1), backwarps, 2*borderSize+1, 2*borderSize+1) * -1;
 
-for h = 1:size(harrisPoints)
+for h = 1:size(harrisPoints, 1)
     x = harrisPoints(1,h); %not sure if correct (are harris corners stored as (x, y)T or (y, x)T ?
     y = harrisPoints(2,h);
     for b = 1:backwarps
         for r = -borderSize:borderSize
             for c = -borderSize:borderSize
 
-                point = img(y+r, x+c, 1);
-                transformed = rotationTheta(b) * rotationPhi(b) * scaling(b) * invRotationPhi(b) * transpose([y+r x+c]);
+                point = img(y+r, x+c);
+                transformed = (((rotationTheta(b) * rotationPhi(b)) * scaling(b)) * invRotationPhi(b)) * transpose([y+r x+c])
+                %looks like it doesn't work that easy...
+                %the transformed coordinates are in every warp almost the
+                %same
                 if (transformed(1) > y - borderSize && transformed(1) < y + borderSize && ...
                     transformed(2) > x - borderSize && transformed(2) < x + borderSize)
                     
-                    patches(h, b, transformed(1), transformed(2)) = point;
+                    patches(h, b, int32(transformed(1)), int32(transformed(2))) = point;
                     
                 end
 
@@ -98,7 +101,13 @@ for h = 1:size(harrisPoints)
             end
         end
     end
+end
+
+for i = 1:size(patches, 2)
     
+%     figure();
+%     imshow(patches(1, i), [0 255]);
+   
 end
 
 
