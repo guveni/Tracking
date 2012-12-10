@@ -40,62 +40,58 @@ phi = (2*pi) * rand(backwarps, 1);
 lambdas = 0.6 + 0.9 * rand(backwarps, 2);
 
 %build the rotation/scale matrices
-rotationTheta = zeros(backwarps, 2, 2);
-rotationPhi = zeros(backwarps, 2, 2);
-invRotationPhi = zeros(backwarps, 2, 2);
-scaling = zeros(backwarps, 2, 2);
+rotationTheta = zeros(2, 2, backwarps);
+rotationPhi = zeros(2, 2, backwarps);
+invRotationPhi = zeros(2, 2, backwarps);
+scaling = zeros(2, 2, backwarps);
 
 for i=1:backwarps
    
-    rotationTheta(i,:,:) = [cos(theta(i)) sin(theta(i));
+    rotationTheta(:,:,i) = [cos(theta(i)) sin(theta(i));
                             -sin(theta(i)) cos(theta(i))];
                 
-    rotationPhi(i,:,:) = [cos(phi(i)) sin(phi(i));
+    rotationPhi(:,:,i) = [cos(phi(i)) sin(phi(i));
                         -sin(phi(i)) cos(phi(i))];
                 
-    invRotationPhi(i,:,:) = [cos(phi(i)) -sin(phi(i)); 
+    invRotationPhi(:,:,i) = [cos(phi(i)) -sin(phi(i)); 
                             sin(phi(i)) cos(phi(i))];
                 
-    scaling(i,:,:) = [lambdas(i, 1) 0;
+    scaling(:,:,i) = [lambdas(i, 1) 0;
                     0 lambdas(i, 2)];
 
 end
 
 %now we use the matrices on every point in the patch of every harrisPoint
 %and build new image patches
-patches = ones(size(harrisPoints, 1), backwarps, 2*borderSize+1, 2*borderSize+1) * -1;
+%patches = ones(size(resPoints, 1), backwarps, 2*borderSize+1, 2*borderSize+1) * -1;
+patches = ones(2*borderSize+1, 2*borderSize+1, backwarps, size(resPoints, 1)) * -1;
 
-for h = 1:size(harrisPoints, 1)
-    x = harrisPoints(1,h); %not sure if correct (are harris corners stored as (x, y)T or (y, x)T ?
-    y = harrisPoints(2,h);
+for h = 1:size(resPoints, 1)
+    x = resPoints(1,h); %not sure if correct (are harris corners stored as (x, y)T or (y, x)T ?
+    y = resPoints(2,h);
+    [x, y]
     for b = 1:backwarps
-        for r = -borderSize:borderSize
-            for c = -borderSize:borderSize
 
-                point = img(y+r, x+c);
-                transformed = (((rotationTheta(b) * rotationPhi(b)) * scaling(b)) * invRotationPhi(b)) * transpose([y+r x+c])
-                %looks like it doesn't work that easy...
-                %the transformed coordinates are in every warp almost the
-                %same
-                if (transformed(1) > y - borderSize && transformed(1) < y + borderSize && ...
-                    transformed(2) > x - borderSize && transformed(2) < x + borderSize)
-                    
-                    patches(h, b, int32(transformed(1)), int32(transformed(2))) = point;
-                    
-                end
+        tempPatch = img(y-borderSize : y+borderSize, x-borderSize : x+borderSize);
 
-            end
-        end
+        transformation = rotationTheta(:, :, b) * invRotationPhi(:, :, b) * scaling(:, :, b) * rotationPhi(:, :, b);
+        transformation = [transformation, [0;0]];
+        transformation = [transformation; [0 0 1]];
+        tform = maketform('affine', transformation);
 
+        transImage = imtransform(tempPatch, tform, 'XData', [1 2*borderSize+1], 'YData', [1 2*borderSize+1], 'FillValues', -1);
+        patches(:, :, b, h) = transImage;
+
+        
         %produce noise for undefined image points (i.e. no point was warped
         %to this position
         for r = 1 : 2 * borderSize + 1
             for c = 1 : 2 * borderSize + 1
-                if(patches(h, b, r, c) == -1)
+                if(patches(r, c, b, h) == -1)
                    if(randi(2) == 1)
-                       patches(h, b, r, c) = 0;
+                       patches(r, c, b, h) = 0;
                    else
-                       patches(h, b, r, c) = 255;
+                       patches(r, c, b, h) = 255;
                    end
                 end
             end
@@ -103,11 +99,13 @@ for h = 1:size(harrisPoints, 1)
     end
 end
 
-for i = 1:size(patches, 2)
-    
-%     figure();
-%     imshow(patches(1, i), [0 255]);
-   
+for i = 1:size(patches, 3)
+    for j = 1:size(patches, 4)
+        
+        figure();
+        imshow(patches(:,:,i,j), [0 255]);
+        
+    end
 end
 
 
