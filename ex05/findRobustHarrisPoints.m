@@ -103,7 +103,7 @@ end
 for i = 1:size(patches, 3)
     for j = 1:size(patches, 4)
         
-        figure();
+        figure(3);
         imshow(patches(:,:,i,j), [0 255]);
         
     end

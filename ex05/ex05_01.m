@@ -1,4 +1,6 @@
 
+close all;
+
 harrisPointsFileName = 'harrisPoints.model';
 samplePointsFileName = 'samplePoints.model';
 histogramsFileName = 'histogram.model';
@@ -18,13 +20,13 @@ patchRadius = 15;  % size will be 2*15+1
 maxHarrisPoints = 200;
 
 
-% if ( exist(harrisPointsFileName, 'file') == 2 && exist(samplePointsFileName, 'file') == 2 && exist(histogramsFileName, 'file') == 2 )
-%      [harrisPoints, samplePoints, histograms] = loadFerns(harrisPointsFileName,samplePointsFileName,histogramsFileName);
-%  else
+%  if ( exist(harrisPointsFileName, 'file') == 2 && exist(samplePointsFileName, 'file') == 2 && exist(histogramsFileName, 'file') == 2 )
+%       [harrisPoints, samplePoints, histograms] = loadFerns(harrisPointsFileName,samplePointsFileName,histogramsFileName);
+%   else
      % smooth(img1); ???
      [harrisPoints, samplePoints, histograms] = trainFerns(trainImage,featuresPerFern,numFerns,numWarpsPerTrainImage,patchRadius,maxHarrisPoints);
-%      saveFerns(harrisPoints,harrisPointsFileName,samplePoints,samplePointsFileName,histograms,histogramsFileName);
-% end;
+%       saveFerns(harrisPoints,harrisPointsFileName,samplePoints,samplePointsFileName,histograms,histogramsFileName);
+%  end;
 
 %
 % smooth(img2) ???

@@ -1,4 +1,4 @@
-function [ harrisPoints,bin,prob ] = findMatchesWithFerns( img,samplePoints,histograms,featuresPerFern, borderSize, maxPoints )
+function [ harrisPoints,matches,prob ] = findMatchesWithFerns( img,samplePoints,histograms,featuresPerFern, borderSize, maxPoints )
 %FINDMATCHESWITHFERN Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -26,7 +26,8 @@ function [ harrisPoints,bin,prob ] = findMatchesWithFerns( img,samplePoints,hist
             binPos = 0;
             
             % for each training-point
-            for trainPointId=1:size(histograms,2)
+            for trainPointId=1:size(samplePoints,2)
+                try
                 
                 %compute bin in which a point falls
                 samplePoint1X = harrisPointX+samplePoints(fernId*4-3,trainPointId);
@@ -35,19 +36,25 @@ function [ harrisPoints,bin,prob ] = findMatchesWithFerns( img,samplePoints,hist
                 samplePoint2Y = harrisPointY+samplePoints(fernId*4-0,trainPointId);
                 
                 if( img(samplePoint1Y,samplePoint1X) < img(samplePoint2Y,samplePoint2X) );
-                    binPos = binPos + 2^(featurePos-1);
+                    binPos = binPos + 2^(trainPointId-1);
                 end
-        
+                
+                catch e
+                    a=e;
+                end
             end
             
             probOfPoint(1,:) = probOfPoint(1,:) .* histograms(featuresPerFern*(fernId-1)+1+binPos,:);
             
         end
-        
+        try
         bestProb = max(probOfPoint);
         bestPos = find(probOfPoint == max(probOfPoint));
-        matches(1,hp) = bestPos;
+        matches(1,hp) = bestPos(1);
         prob(1,hp) = bestProb;
+        catch e
+            a=e;
+        end
         
     end
 
