@@ -45,8 +45,22 @@ for b = 1:numWarps
     transformation = [transformation; [0 0 1]];
     tform = maketform('affine', transformation);
 
-    %transImage = imtransform(patch, tform, 'XData', [1 width], 'YData', [1 height], 'FillValues', -1);
-    transImage = imtransform(patch, tform, 'FillValues', -1);
+    center = [ceil(height/2); ceil(width/2); 1];
+    transCenter = transformation*center;
+    xOff = transCenter(1) - center(1);
+    yOff = transCenter(2) - center(2);
+    
+    transImage = imtransform(patch, tform, 'XData', [1 width], 'YData', [1 height], 'FillValues', -1);
+    %transImage = imtransform(patch, tform, 'XData', [xOff-ceil(width/2) xOff+ceil(width/2)], 'YData', [yOff-ceil(height/2) yOff+ceil(height/2)], 'FillValues', -1);
+    %transImage = imtransform(patch, tform, 'XData', [xOff width+xOff], 'YData', [yOff height+yOff], 'FillValues', -1);
+    %[temptransImage, xdata, ydata] = imtransform(patch, tform, 'FillValues', -1);
+    %xdata
+    %ydata
+    %cent = [ceil((ydata(2)-ydata(1))/2); ceil((xdata(2)-xdata(1))/2)]
+    %cent = [ceil((ydata(2)+ydata(1))/2); ceil((xdata(2)+xdata(1))/2)]
+    %transImage = temptransImage(cent(1)-ceil(height/2):cent(1)+ceil(height/2), cent(2)-ceil(width/2):cent(2)+ceil(width/2));
+    %transImage = imtransform(patch, tform, 'Size', [height, width], 'FillValues', -1);
+    imshow(transImage, [0 255]);
     warpedPatches(:, :, b) = transImage;
 
 
