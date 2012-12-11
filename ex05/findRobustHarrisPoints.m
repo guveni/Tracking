@@ -68,8 +68,9 @@ patches = ones(2*borderSize+1, 2*borderSize+1, backwarps, size(resPoints, 1)) * 
 
 for h = 1:size(resPoints, 1)
     x = resPoints(1,h); %not sure if correct (are harris corners stored as (x, y)T or (y, x)T ?
+                        % stefan: it's correct. line 1 is x and line 2 is y
     y = resPoints(2,h);
-    [x, y]
+
     for b = 1:backwarps
 
         tempPatch = img(y-borderSize : y+borderSize, x-borderSize : x+borderSize);

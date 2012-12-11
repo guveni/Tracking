@@ -7,8 +7,11 @@ function [harrisPoints, samplePoints, histograms] = trainFerns( img, fernSize, f
     % p1y p2y p3y p4y
     harrisPoints = findRobustHarrisPoints(img,patchSize,maxHarrisPoints);
 
-    
-    
+
+
+
+
+figure();
      imshow(img,[0,255]);
      hold on
      plot(harrisPoints(1,:), harrisPoints(2,:), 'r*');
@@ -59,9 +62,6 @@ function [harrisPoints, samplePoints, histograms] = trainFerns( img, fernSize, f
             randPositions1 = getRandomPositions(fernSize,patchSize);
             randPositions2 = getRandomPositions(fernSize,patchSize);
             
-            % bins for 
-            bins = zeros(2^fernSize,size(harrisPoints,2));
-
             binPos = 0;
             % for each feature of fern
             for featurePos=1:fernSize
@@ -87,7 +87,8 @@ function [harrisPoints, samplePoints, histograms] = trainFerns( img, fernSize, f
     end
     
     % normalize histogram
-    histograms(:,:) = histograms(:,:)/numWarps;
+    % +2^fernsize, because all bins are initialised with 1
+    histograms(:,:) = histograms(:,:)/(numWarps+2^fernSize);
 
 
 end
