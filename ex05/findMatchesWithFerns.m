@@ -19,34 +19,36 @@ function [ harrisPoints,bin,prob ] = findMatchesWithFerns( img,samplePoints,hist
 
         harrisPointX = harrisPoints(1,hp);
         harrisPointY = harrisPoints(2,hp);
-        
-        
-        % for each training-point
-        for trainPoint=1:size(histograms,2)
-        
             
-            % for each fern
-            for fernId=1:size(samplePoints,1)/4
+        % for each fern
+        for fernId=1:(size(samplePoints,1)/4)
+            
+            binPos = 0;
+            
+            % for each training-point
+            for trainPointId=1:size(histograms,2)
                 
                 %compute bin in which a point falls
-                samplePoint1X = harrisPointX+randPositions1(1,featurePos);
-                samplePoint1Y = harrisPointY+randPositions1(2,featurePos);
-                samplePoint2X = harrisPointX+randPositions2(1,featurePos);
-                samplePoint2Y = harrisPointY+randPositions2(2,featurePos);
+                samplePoint1X = harrisPointX+samplePoints(fernId*4-3,trainPointId);
+                samplePoint1Y = harrisPointY+samplePoints(fernId*4-2,trainPointId);
+                samplePoint2X = harrisPointX+samplePoints(fernId*4-1,trainPointId);
+                samplePoint2Y = harrisPointY+samplePoints(fernId*4-0,trainPointId);
                 
                 if( img(samplePoint1Y,samplePoint1X) < img(samplePoint2Y,samplePoint2X) );
                     binPos = binPos + 2^(featurePos-1);
                 end
-                
-                probOfPoint(1,:) = probOfPoint(1,:) .* histograms(featuresPerFern*(fernId-1)+1,:);
-            end
         
-            bestProb = max(probOfPoint);
-            bestPos = find(probOfPoint == max(probOfPoint))
+            end
             
-            matches(1,hp) = bestPos;
-            prob(1,hp) = bestProb;
+            probOfPoint(1,:) = probOfPoint(1,:) .* histograms(featuresPerFern*(fernId-1)+1+binPos,:);
+            
         end
+        
+        bestProb = max(probOfPoint);
+        bestPos = find(probOfPoint == max(probOfPoint));
+        matches(1,hp) = bestPos;
+        prob(1,hp) = bestProb;
+        
     end
 
 end
