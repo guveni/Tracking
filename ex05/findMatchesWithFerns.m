@@ -6,6 +6,12 @@ function [ harrisPoints,matches,prob ] = findMatchesWithFerns( img,samplePoints,
 
     n = size(harrisPoints,2);
 
+    figure(1);
+    imshow(img,[0 255]);
+    hold on;
+    plot(harrisPoints(1,:), harrisPoints(2,:), 'r*');
+    hold off;
+    
     % set initial matches to -1 and prob 0
     matches = ones(1,n)*-1;
     prob = zeros(1,n);
@@ -17,6 +23,8 @@ function [ harrisPoints,matches,prob ] = findMatchesWithFerns( img,samplePoints,
     for hp=1:n
         % TODO: find best value from histogram
 
+        probOfPoint = ones(1,size(histograms,2));
+        
         harrisPointX = harrisPoints(1,hp);
         harrisPointY = harrisPoints(2,hp);
             

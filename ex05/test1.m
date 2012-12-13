@@ -34,28 +34,19 @@ tform = maketform('affine',H2);
 tform2 = maketform('affine',inv(H2));
 [WARP2,xdata,ydata] = imtransform(WARP,tform2);
 
-
+[WARP] = warpNew(I,H2);
 
 [swY swX] = size(WARP);
 
 p2 = [swX/2;swY/2;1];
 p2 = [400;400;1];
-p2rel = p2 - [swX/2;swY/2;0];
 
-p1rel = zeros(3,1);
-[p1rel(1) p1rel(2)] = tformfwd( tform2,p2rel(1),p2rel(2));
-p1rel(3) = 0;
-%p1rel = H2 * p2rel;
-p1 = p1rel + [sX/2;sY/2;0];
+p1 = calcPointAfterWarping(p2,size(I),size(WARP),H2,1);
+
 
 p11 = [sX/2;1;1];
-% p11 = [1;1;1];
-p11rel = p11 - [sX/2;sY/2;0];
 
-p22rel = (H2) \ p11rel;
-[p22rel(1) p22rel(2)] = tformfwd( tform,p11rel(1),p11rel(2));
-
-p22 = p22rel + [swX/2;swY/2;0];
+p22 = calcPointAfterWarping(p11,size(I),size(WARP),H2,0);
 
 center = [sX/2,sY/2];
 figure(1);

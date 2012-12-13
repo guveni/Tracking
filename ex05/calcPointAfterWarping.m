@@ -27,6 +27,7 @@ function [ newPoint ] = calcPointAfterWarping( point, sizeI,sizeWarp, H2, forwar
         p1rel(3) = 0;
         %p1rel = H2 * p2rel;
         newPoint = p1rel + [sX/2;sY/2;0];
+        
     else
         p11rel = point - [sX/2;sY/2;0];
 
@@ -36,5 +37,6 @@ function [ newPoint ] = calcPointAfterWarping( point, sizeI,sizeWarp, H2, forwar
         newPoint = p22rel + [swX/2;swY/2;0];
     end
 
+    newPoint = round(newPoint);
 end
 

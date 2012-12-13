@@ -2,9 +2,18 @@ function [ resPoints ] = findRobustHarrisPoints( img , borderSize, maxPoints)
 %FINDROBUSTHARRISPOINTS Summary of this function goes here
 %   Detailed explanation goes here
 
-% TODO: do warping (see comment below)
-% TODO: search for more than 5 harris-points
-harrisPoints = corner(img,'Harris',maxPoints)';
+
+warps = 1;
+
+for w = 1:warps
+    I = img;
+    % TODO: do warping (see comment below)
+    % TODO: search for more than 5 harris-points
+    harrisPoints = corner(I,'Harris',maxPoints)';
+
+
+end
+
 
 [m,n] = size(img);
 
@@ -16,7 +25,7 @@ for i=1:size(harrisPoints,2)
     p1x = harrisPoints(1,i);
     p1y = harrisPoints(2,i);    
     
-    if ( p1x < borderSize+1 || p1y < borderSize+1 ||p1x > n-15 || p1y > m-15 )
+    if ( p1x < borderSize+1 || p1y < borderSize+1 ||p1x > n-borderSize || p1y > m-borderSize )
         a = 5;
     else
         ctr = ctr+1;
@@ -25,21 +34,6 @@ for i=1:size(harrisPoints,2)
 end
 
 resPoints = resPoints(:,1:ctr);
-
-
-for p = 1:size(resPoints, 1)
-    x = resPoints(1, p);
-    y = resPoints(2, p);
-    
-    [warpedPatches, transformations] = warpImagePatch(img(y-borderSize : y+borderSize, x-borderSize : x+borderSize), 20);
-    %[warpedPatches, transformations] = warpImagePatch(img, 10);
-    
-    for i = 1:size(warpedPatches, 3)
-        figure();
-        imshow(warpedPatches(:, :, i), [0 255]);
-    end  
-end
-
 
 % accHarrisPoints = zeros(size(img))
 %

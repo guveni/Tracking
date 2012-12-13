@@ -51,6 +51,7 @@ for b = 1:numWarps
     yOff = transCenter(2) - center(2);
     
     transImage = imtransform(patch, tform, 'XData', [1 width], 'YData', [1 height], 'FillValues', -1);
+    transImage = imtransform(patch, tform, 'FillValues', -1);
     %transImage = imtransform(patch, tform, 'XData', [xOff-ceil(width/2) xOff+ceil(width/2)], 'YData', [yOff-ceil(height/2) yOff+ceil(height/2)], 'FillValues', -1);
     %transImage = imtransform(patch, tform, 'XData', [xOff width+xOff], 'YData', [yOff height+yOff], 'FillValues', -1);
     %[temptransImage, xdata, ydata] = imtransform(patch, tform, 'FillValues', -1);
@@ -61,7 +62,7 @@ for b = 1:numWarps
     %transImage = temptransImage(cent(1)-ceil(height/2):cent(1)+ceil(height/2), cent(2)-ceil(width/2):cent(2)+ceil(width/2));
     %transImage = imtransform(patch, tform, 'Size', [height, width], 'FillValues', -1);
     imshow(transImage, [0 255]);
-    warpedPatches(:, :, b) = transImage;
+    %warpedPatches(:, :, b) = transImage;
 
 
     %produce noise for undefined image points (i.e. no point was warped
