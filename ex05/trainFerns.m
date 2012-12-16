@@ -73,6 +73,10 @@ function [harrisPoints, samplePoints, histograms] = trainFerns( I, fernSize, fer
         transformation = [transformation, [0;0]];
         transformation = [transformation; [0 0 1]];
         
+        if(w==1)
+           transformation = [1 0 0;0 1 0;0 0 1]; 
+        end
+        
         iWarp = warpNew(I,transformation);
         
 %         figure();
@@ -90,7 +94,7 @@ function [harrisPoints, samplePoints, histograms] = trainFerns( I, fernSize, fer
             
             warpedHP = calcPointAfterWarping(harPoint,size(I),size(iWarp),transformation,0);
             
-            plot(warpedHP(1), warpedHP(2), 'r*');
+%             plot(warpedHP(1), warpedHP(2), 'r*');
             
             harrisPointX = warpedHP(1);
             harrisPointY = warpedHP(2);
