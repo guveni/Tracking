@@ -1,9 +1,10 @@
 clear; close all;
 
+tic()
 
 img0 = double( rgb2gray(imread('./image_sequence/0000.png')) );
 [height, width, d] = size(img0);
-numImages = 10;
+numImages = 45;
 
 [points3D, framesT0, descriptorsT0] = initTracking(img0);
 
@@ -46,25 +47,29 @@ for i=1:numImages-1
 
 
 
-    figure();
+    figHandle = figure();
     imshow(canvas,[0 255]);
 
      hold on;
-     for i=1:size(m1,2)
+     for matchId=1:size(m1,2)
 %        plot(m1(1,i),m1(2,i),'xr'); 
 %        
 %        plot(m2(1,i)+offsetX,m2(2,i),'oy');
-        title( sprintf('Matches: %d - Inliers: %d',size(m1,2),size(cons,2)) );
-       if(any(cons==i))
-        plot([m1(1,i),m2(1,i)+offsetX],[m1(2,i),m2(2,i)],'-xb');
+        title( sprintf('res%04d.png: Matches: %d - Inliers: %d',i,size(m1,2),size(cons,2)) );
+       if(any(cons==matchId))
+        plot([m1(1,matchId),m2(1,matchId)+offsetX],[m1(2,matchId),m2(2,matchId)],'-xb');
        else
-        plot([m1(1,i),m2(1,i)+offsetX],[m1(2,i),m2(2,i)],'-xr');
+        plot([m1(1,matchId),m2(1,matchId)+offsetX],[m1(2,matchId),m2(2,matchId)],'-xr');
        end
      end
      hold off;
+     
+     saveas(figHandle,sprintf('results/res%04d.png',i),'png'); %name is a string
+
     
 end
 
+toc()
 
 input('press any key to finish');
 close all;
