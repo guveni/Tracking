@@ -33,7 +33,7 @@ for i=1:numImages-1
     currImg = single(rgb2gray(imread(filename)));
     images(:, :, i) = currImg;
 
-    [m1,m2,cons,H] = computeCorrespondences(images(:, :, i), framesT0, descriptorsT0);
+    [m1,m2,cons,H,] = computeCorrespondences(images(:, :, i), framesT0, descriptorsT0,[]);
     
     
     % ///////////////// plot matches ////////////////////

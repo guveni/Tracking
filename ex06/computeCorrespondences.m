@@ -1,4 +1,4 @@
-function [ matches1,matches2,cons, H ] = computeCorrespondences( img, framesT0, descriptorsT0)
+function [ matches1,matches2,cons, H ,Mout] = computeCorrespondences( img, framesT0, descriptorsT0,M)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -26,5 +26,9 @@ matches2(3,:) = ones(1,size(matches2,2));
 
 [H,cons,tmp,Hbest] = doAdaptiveRansac(matches1,matches2,4,10,0.995);
 
+Mout = 0;
+if size(M,1) > 0
+    Mout = M(:, matches(1, :));
+end
 
 end
