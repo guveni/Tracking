@@ -4,7 +4,7 @@ tic()
 
 img0 = double( rgb2gray(imread('./image_sequence/0000.png')) );
 [height, width, d] = size(img0);
-numImages = 10;
+numImages = 45;
 
 A = [472.3 0.64 329.0; 0 471.0 268.3; 0 0 1];
 
@@ -28,6 +28,10 @@ xOld = [0;0;0;0;0;1];
 
 results = zeros(6,numImages);
 
+cam0 = [0;0;0;1];
+cams = zeros(4, numImages);
+cams(:, 1) = cam0;
+
 for i=0:numImages-1
   	i
     if(i < 10)
@@ -45,15 +49,24 @@ for i=0:numImages-1
     [xOld,e] = fminsearch(funcHandle, xOld);
     
     results(:,i+1) = xOld;
+    xOld
     e
-    
+
+    if i>0
+        [R, T] = getRotationTranslationMat(xOld);
+        cams(:, i+1) = R*T*cams(:, i);
+    end
 end
 
- plot3(results(4,:),results(5,:),results(6,:),'-rx')
+
+ %plot3(results(4,:),results(5,:),results(6,:),'-ro')
+ plot3(cams(1, :), cams(2, :), cams(3, :),'-ro')
+ 
  grid on;
  xlabel('X')
  ylabel('Y')
  zlabel('Z')
+ axis equal;
 
 toc()
 
