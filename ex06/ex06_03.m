@@ -4,7 +4,8 @@ tic()
 
 img0 = double( rgb2gray(imread('./image_sequence/0000.png')) );
 [height, width, d] = size(img0);
-numImages = 45;
+
+numImages = 5;
 
 A = [472.3 0.64 329.0; 0 471.0 268.3; 0 0 1];
 
@@ -59,8 +60,35 @@ for i=0:numImages-1
 end
 
 
- %plot3(results(4,:),results(5,:),results(6,:),'-ro')
- plot3(cams(1, :), cams(2, :), cams(3, :),'-ro')
+ plot3(results(4,:),results(5,:),results(6,:),'-ro')
+ 
+hold on;
+  plot3(points3D(1,:),points3D(2,:),points3D(3,:),'bx');
+ 
+ %plot3(cams(1, :), cams(2, :), cams(3, :),'-go')
+ 
+ 
+ A = [A [0;0;0]];
+  A = [A;0 0 0 1];
+  
+for i=1:numImages
+    [R,T]=getRotationTranslationMat(results(:,i));
+    
+    x = A*R*T* [1,0,0,1]';
+    y = A*R*T* [0,1,0,1]';
+    z = A*R*T* [0,0,1,1]';
+    
+    x=x./norm(x);
+    y=y./norm(y);
+    z=z./norm(z);
+    
+    plot3([0 x(1)],[0 x(2)],[0 x(2)],'-rx');
+    plot3([0 y(1)],[0 y(2)],[0 y(2)],'-gx');
+    plot3([0 z(1)],[0 z(2)],[0 z(2)],'-bx');
+
+
+end
+ 
  
  grid on;
  xlabel('X')
@@ -70,5 +98,3 @@ end
 
 toc()
 
-input('press any key to finish');
-close all;

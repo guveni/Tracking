@@ -24,7 +24,7 @@ matches1(3,:) = ones(1,size(matches1,2));
 matches2 = frames(1:2,matches(2,:));
 matches2(3,:) = ones(1,size(matches2,2));
 
-[H,cons,tmp,Hbest] = doAdaptiveRansac(matches1,matches2,4,10,0.995);
+[H,cons,tmp,Hbest] = doAdaptiveRansac(matches1,matches2,4,1,0.995);
 
 Mout = 0;
 if size(M,1) > 0

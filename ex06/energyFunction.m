@@ -16,7 +16,7 @@ function [ energy ] = energyFunction( A,x,M,m )
   
   energy = 0;
   for i=1:size(M,2)
-     energy = energy + norm(mTilde(1:3,i)-m(1:3,i))^2;
+     energy = energy + (norm(mTilde(1:3,i)-m(1:3,i)))^2;
   end
 
 
