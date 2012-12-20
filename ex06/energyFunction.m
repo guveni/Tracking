@@ -2,7 +2,7 @@ function [ energy ] = energyFunction( A,x,M,m )
 %ENERGYFUNCTION Summary of this function goes here
 %   Detailed explanation goes here
 
-  M(4,:) = ones(1,size(M,2));
+  
 
   A = [A [0;0;0]];
   A = [A;0 0 0 1];

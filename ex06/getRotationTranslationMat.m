@@ -10,9 +10,9 @@ function [ rotationMat, translationMat ] = getRotationTranslationMat( x )
   ty = x(5,1);
   tz = x(6,1);
   
-  rx = rx/180*pi;
-  ry = ry/180*pi;
-  rz = rz/180*pi;
+%   rx = rx/180*pi;
+%   ry = ry/180*pi;
+%   rz = rz/180*pi;
   
   Rx = [
       1        0        0  0;

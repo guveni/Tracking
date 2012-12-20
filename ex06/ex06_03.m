@@ -5,7 +5,7 @@ tic()
 img0 = double( rgb2gray(imread('./image_sequence/0000.png')) );
 [height, width, d] = size(img0);
 
-numImages = 5;
+numImages = 22;
 
 A = [472.3 0.64 329.0; 0 471.0 268.3; 0 0 1];
 
@@ -68,23 +68,31 @@ hold on;
  %plot3(cams(1, :), cams(2, :), cams(3, :),'-go')
  
  
- A = [A [0;0;0]];
-  A = [A;0 0 0 1];
+A = [A [0;0;0]];
+A = [A;0 0 0 1];
   
 for i=1:numImages
-    [R,T]=getRotationTranslationMat(results(:,i));
+%     [R,T]=getRotationTranslationMat(results(:,i));
     
-    x = A*R*T* [1,0,0,1]';
-    y = A*R*T* [0,1,0,1]';
-    z = A*R*T* [0,0,1,1]';
+%     p=A*R*T*[results(4,i);results(5,i);results(6,i);1];
     
-    x=x./norm(x);
-    y=y./norm(y);
-    z=z./norm(z);
+    text(results(4,i),results(5,i),results(6,i)+.1,sprintf('%d',i-1));
     
-    plot3([0 x(1)],[0 x(2)],[0 x(2)],'-rx');
-    plot3([0 y(1)],[0 y(2)],[0 y(2)],'-gx');
-    plot3([0 z(1)],[0 z(2)],[0 z(2)],'-bx');
+%     o = A*R*T*[0,0,0,1]';
+%     
+%     x = A*R*T* [1,0,0,1]';
+%     y = A*R*T* [0,1,0,1]';
+%     z = A*R*T* [0,0,1,1]';
+%     
+%     o=o./norm(o);
+%     
+%     x=x./norm(x);
+%     y=y./norm(y);
+%     z=z./norm(z);
+%     
+%     plot3([o(1) x(1)],[o(2) x(2)],[o(3) x(2)],'-rx');
+%     plot3([o(1) y(1)],[o(2) y(2)],[o(3) y(2)],'-gx');
+%     plot3([o(1) z(1)],[o(2) z(2)],[o(3) z(2)],'-bx');
 
 
 end
@@ -95,6 +103,10 @@ end
  ylabel('Y')
  zlabel('Z')
  axis equal;
+ 
+ 
+
+
 
 toc()
 
