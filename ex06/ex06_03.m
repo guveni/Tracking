@@ -79,15 +79,15 @@ poses=ones(4,numImages);
 
 for i=1:numImages
      [R,T]=getRotationTranslationMat(results(:,i));
-    
+         
 %     p=A*R*T*[results(4,i);results(5,i);results(6,i);1];
 
-    rr = -transpose(R(1:3, 1:3));
+    rr =R(1:3, 1:3);
     rr = [rr; 0 0 0];
     rt = [ rr T(:, 4)];
     
 %    p = -R'*T*[0;0;0;1];
-    p = (rt)*[0;0;0;1];
+    p = inv(rt)*[0;0;0;1];
 
     p = normalizePoints(p);
 %     plot3(results(4,:),results(5,:),results(6,:),'-ro')
