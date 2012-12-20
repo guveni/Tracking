@@ -36,7 +36,7 @@ function [ rotationMat, translationMat ] = getRotationTranslationMat( x )
             0        0         0   1;
   ];
 
-  rotationMat = Rz*(Ry*Rx);
+  rotationMat = Rz*Ry*Rx;
 
   translationMat = [
       1 0 0 tx;

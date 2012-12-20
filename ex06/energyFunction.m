@@ -9,7 +9,8 @@ function [ energy ] = energyFunction( A,x,M,m )
 
   [R, T] = getRotationTranslationMat(x);
     
-  mTilde = A*R*T*M;
+  rt = [R(:, 1:3) T(:, 4)];
+  mTilde = A*rt*M;
 
   normalizePoints(mTilde);
   normalizePoints(m);
