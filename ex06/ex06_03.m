@@ -6,7 +6,7 @@ img0 = double( rgb2gray(imread('./image_sequence/0000.png')) );
 [height, width, d] = size(img0);
 
 % number of images. maximum is 45
-numImages = 5;
+numImages = 15;
 
 A = [472.3 0.64 329.0; 0 471.0 268.3; 0 0 1];
 
@@ -64,27 +64,29 @@ end
 
   plot3(points3D(1,:),points3D(2,:),points3D(3,:),'bx');
  
+  hold on; 
+      
  %plot3(cams(1, :), cams(2, :), cams(3, :),'-go')
  
  
 A = [A [0;0;0]];
 A = [A;0 0 0 1];
   
-p=ones(4,numImages);
+poses=ones(4,numImages);
 
 for i=1:numImages
      [R,T]=getRotationTranslationMat(results(:,i));
     
 %     p=A*R*T*[results(4,i);results(5,i);results(6,i);1];
 
-    hold on;   
+  
     
     p = -R'*T*[0;0;0;1];
     p = normalizePoints(p);
 %     plot3(results(4,:),results(5,:),results(6,:),'-ro')
-    plot3(p(1,1),p(2,1),p(3,1),'-ro')
+%     plot3(p(1,1),p(2,1),p(3,1),'-ro')
  
-
+poses(:,i) = p;
 
     text(p(1,1),p(2,1),p(3,1)+.1,sprintf('%d',i-1));
     
@@ -107,6 +109,7 @@ for i=1:numImages
 
 end
  
+plot3(poses(1,:),poses(2,:),poses(3,:),'-ro')
  
  grid on;
  xlabel('X')
