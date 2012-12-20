@@ -6,7 +6,7 @@ img0 = double( rgb2gray(imread('./image_sequence/0000.png')) );
 [height, width, d] = size(img0);
 
 % number of images. maximum is 45
-numImages = 15;
+numImages = 5;
 
 A = [472.3 0.64 329.0; 0 471.0 268.3; 0 0 1];
 
@@ -70,7 +70,7 @@ end
 A = [A [0;0;0]];
 A = [A;0 0 0 1];
   
-p = zeros(4,numImages);
+p=ones(4,numImages);
 
 for i=1:numImages
      [R,T]=getRotationTranslationMat(results(:,i));
@@ -81,9 +81,10 @@ for i=1:numImages
     
     p = -R'*T*[0;0;0;1];
     p = normalizePoints(p);
-
+%     plot3(results(4,:),results(5,:),results(6,:),'-ro')
+    plot3(p(1,1),p(2,1),p(3,1),'-ro')
  
-    p(:,i) = p;
+
 
     text(p(1,1),p(2,1),p(3,1)+.1,sprintf('%d',i-1));
     
@@ -106,8 +107,6 @@ for i=1:numImages
 
 end
  
-%     plot3(results(4,:),results(5,:),results(6,:),'-ro')
-    plot3(p(1,:),p(2,:),p(3,:),'-ro')
  
  grid on;
  xlabel('X')
