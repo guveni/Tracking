@@ -6,7 +6,7 @@ img0 = double( rgb2gray(imread('./image_sequence/0000.png')) );
 [height, width, d] = size(img0);
 
 % number of images. maximum is 45
-numImages = 15;
+numImages = 45;
 
 A = [472.3 0.64 329.0; 0 471.0 268.3; 0 0 1];
 
@@ -26,6 +26,7 @@ image = zeros(height, width);
 % correspondences = zeros(height, width, 2*(numImages-1));
 % homographies = zeros(3, 3, numImages-1);
 
+%xOld = [0;0;0;0;0;1];
 xOld = [0;0;0;0;0;0];
 
 results = zeros(6,numImages);
@@ -56,7 +57,9 @@ for i=0:numImages-1
 
     if i>0
         [R, T] = getRotationTranslationMat(xOld);
-        cams(:, i+1) = R*T*cams(:, i);
+        %cams(:, i+1) = R*T*cams(:, i);
+        cams(:, i+1) = [R(:, 1:3) T(:, 4)]*cams(:, i);
+        
     end
 end
 
@@ -79,9 +82,13 @@ for i=1:numImages
     
 %     p=A*R*T*[results(4,i);results(5,i);results(6,i);1];
 
-  
+    rr = -transpose(R(1:3, 1:3));
+    rr = [rr; 0 0 0];
+    rt = [ rr T(:, 4)];
     
-    p = -R'*T*[0;0;0;1];
+%    p = -R'*T*[0;0;0;1];
+    p = (rt)*[0;0;0;1];
+
     p = normalizePoints(p);
 %     plot3(results(4,:),results(5,:),results(6,:),'-ro')
 %     plot3(p(1,1),p(2,1),p(3,1),'-ro')
