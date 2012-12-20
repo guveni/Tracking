@@ -26,7 +26,7 @@ image = zeros(height, width);
 % correspondences = zeros(height, width, 2*(numImages-1));
 % homographies = zeros(3, 3, numImages-1);
 
-xOld = [0;0;0;0;0;1];
+xOld = [0;0;0;0;0;0];
 
 results = zeros(6,numImages);
 
