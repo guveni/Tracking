@@ -4,6 +4,7 @@ function [ intImg ] = constructIntegralImage( img )
 [rows, cols] = size(img);
 
 intImg = zeros(rows, cols);
+intImg = double(intImg);
 
 intImg(1, 1) = img(1, 1);
 
@@ -42,4 +43,3 @@ for x = 1:cols
 end
 
 end
-
