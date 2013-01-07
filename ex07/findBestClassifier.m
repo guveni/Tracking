@@ -29,7 +29,7 @@ for dir=1:2  % horizontal and vertical
        endPos = maxX;
    end
    
-   for pos=startPos-1:endPos+1 % test all positions for line
+   for pos=startPos-1:.5:endPos+1 % test all positions for line
        e = 0;
        aboveOrBelow = 1;
        
