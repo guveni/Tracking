@@ -12,7 +12,7 @@ dat3 = d.dat;
 
 
 
-T = 20; % number of iterations/weak classifiers
+T = 100; % number of iterations/weak classifiers
 numSamples = size(dat1,1);
 
 
@@ -85,6 +85,18 @@ figure(2);
 mesh(X,Y,out)
 hold off;
 
+figure(4)
+hold on;
+for r=1:5:maxY-minY
+   for c=1:5:maxX-minX
+       if out(r,c) > 0
+           plot(X(r,c),Y(r,c),'g+');
+       else
+           plot(X(r,c),Y(r,c),'rx');
+       end
+   end
+end
+hold off;
 
 figure(3);
 hold on;
