@@ -1,3 +1,7 @@
+clear;
+close all;
+
+
 img1 = double(rgb2gray(imread('./test_images/face1.jpg')));
 img2 = double(rgb2gray(imread('./test_images/face2.jpg')));
 img3 = double(rgb2gray(imread('./test_images/face3.jpg')));
@@ -16,4 +20,4 @@ load('./Classifiers.mat');
 %     
 % end
 
-slidingWindow(classifiers, intImg1);
+slidingWindow(classifiers, intImg1, img1);
