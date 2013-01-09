@@ -38,15 +38,35 @@ switch class
         featureResponse = resp1 - resp2;
         
     case 2
-        resp1 = intImg(r + height/2 - 1, c + width - 1) ...%C
-            + intImg(r, c) ...%A
-            - intImg(r + height/2 - 1, c) ...%D
-            - intImg(r, c + width - 1);%B
+        luR = r;
+        luC = c;
+        rlR = r + height/2;
+        rlC = c + width;
         
-        resp2 = intImg(r + height - 1, c + width - 1) ...%C
-            + intImg(r + height/2, c) ...%A
-            - intImg(r + height - 1, c) ...%D
-            - intImg(r + height/2, c + width -1);%B
+%         resp1 = intImg(r + height/2 - 1, c + width - 1) ...%C
+%             + intImg(r, c) ...%A
+%             - intImg(r + height/2 - 1, c) ...%D
+%             - intImg(r, c + width - 1);%B
+        
+        resp1 =  intImg(rlR, rlC) ...%C
+            + intImg(luR, luC) ...%A
+            - intImg(rlR, luC) ...%D
+            - intImg(luR, rlC);%B
+        
+        luR = r + height/2;
+        luC = c;
+        rlR = r + height;
+        rlC = c + width;
+        
+%         resp2 = intImg(r + height - 1, c + width - 1) ...%C
+%             + intImg(r + height/2, c) ...%A
+%             - intImg(r + height - 1, c) ...%D
+%             - intImg(r + height/2, c + width -1);%B
+        
+        resp2 =  intImg(rlR, rlC) ...%C
+            + intImg(luR, luC) ...%A
+            - intImg(rlR, luC) ...%D
+            - intImg(luR, rlC);%B
         
         featureResponse = resp1 - resp2;
         
@@ -107,7 +127,7 @@ switch class
             - intImg(r + height - 1, c + width/2) ...%D
             - intImg(r + height/2, c + width - 1);%B
         
-        featureResponse = resp1 - resp2 + resp3 - resp4;
+        featureResponse = resp1 - resp2 - resp3 + resp4;
                
 end
 

@@ -82,7 +82,7 @@ for round=1:size(Ts,2)
 
     end
 
-
+    % plot classifier result
     if plotAll == 1
 
         minX = min(dat1(:,1));
@@ -93,11 +93,12 @@ for round=1:size(Ts,2)
         [X,Y] = meshgrid(minX:1:maxX,minY:1:maxY); 
         out = getHypothesis(h,alphas,X,Y);
 
-
+        % plot 3D (exact response value)
         figure();
         mesh(X,Y,out)
         hold off;
 
+        % plot 2D (only positive or negative)
         figure()
         hold on;
         for r=1:5:maxY-minY
