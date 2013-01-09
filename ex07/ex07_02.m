@@ -8,4 +8,12 @@ intImg1 = constructIntegralImage(img1);
 
 load('./Classifiers.mat');
 
-haarlikeFeatures(classifiers(1:5, 50), intImg1)
+%just for testing
+% numClassifiers = size(classifiers, 2);
+% for i = 2:5:numClassifiers
+% 
+%     haarlikeFeatures(classifiers(1:5, i), intImg1, 0)
+%     
+% end
+
+slidingWindow(classifiers(1:5, i), intImg1);
