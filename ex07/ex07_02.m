@@ -12,7 +12,7 @@ load('./Classifiers.mat');
 % numClassifiers = size(classifiers, 2);
 % for i = 2:5:numClassifiers
 % 
-%     haarlikeFeatures(classifiers(1:5, i), intImg1, 0)
+%     haarlikeFeatures(classifiers(1:5, i), intImg1, 19)
 %     
 % end
 

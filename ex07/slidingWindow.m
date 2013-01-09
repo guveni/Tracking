@@ -19,11 +19,8 @@ for w = 1:size(windowSize, 1);
            for cId = 2:size(classifier,2)
                response = response + haarlikeFeatures(classifier(:,cId), patch, currWinSize);
            end
-           
-           
        end
     end
 end
 
 end
-

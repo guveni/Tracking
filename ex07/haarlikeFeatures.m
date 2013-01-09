@@ -12,10 +12,12 @@ width = classifier(3);
 height = classifier(4);
 class = classifier(5);
 
-if(windowSize > 0)
-   width = floor(width * 19/windowSize);
-   height = floor(height * 19/windowSize);
-end
+
+width = floor(width * 19/windowSize);
+height = floor(height * 19/windowSize);
+r = floor(r * 19/windowSize);
+c = floor(c * 19/windowSize);
+
 
 switch class
    
