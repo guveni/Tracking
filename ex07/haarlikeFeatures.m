@@ -43,11 +43,6 @@ switch class
         rlR = r + height/2;
         rlC = c + width;
         
-%         resp1 = intImg(r + height/2 - 1, c + width - 1) ...%C
-%             + intImg(r, c) ...%A
-%             - intImg(r + height/2 - 1, c) ...%D
-%             - intImg(r, c + width - 1);%B
-        
         resp1 =  intImg(rlR, rlC) ...%C
             + intImg(luR, luC) ...%A
             - intImg(rlR, luC) ...%D
@@ -58,11 +53,6 @@ switch class
         rlR = r + height;
         rlC = c + width;
         
-%         resp2 = intImg(r + height - 1, c + width - 1) ...%C
-%             + intImg(r + height/2, c) ...%A
-%             - intImg(r + height - 1, c) ...%D
-%             - intImg(r + height/2, c + width -1);%B
-        
         resp2 =  intImg(rlR, rlC) ...%C
             + intImg(luR, luC) ...%A
             - intImg(rlR, luC) ...%D
@@ -71,62 +61,114 @@ switch class
         featureResponse = resp1 - resp2;
         
     case 3
-        resp1 = intImg(r + height - 1, c + width/3 - 1) ...%C
-            + intImg(r, c) ...%A
-            - intImg(r + height - 1, c) ...%D
-            - intImg(4, c + winWidht/3 - 1);%B
         
-        resp2 = intImg(r + height - 1, c + 2*width/3 - 1) ...%C
-            + intImg(r, c + width/3) ...%A
-            - intImg(r + height - 1, c + width/3) ...%D
-            - intImg(r, c + 2*width/3 - 1);%B
+        luR = r;
+        luC = c;
+        rlR = r + height;
+        rlC = c + width/3;
         
-        resp3 = intImg(r + height - 1, c + 2*width/3 - 1) ...%C
-            + intImg(r, c + 2*width/3) ...%A
-            - intImg(r + height - 1, c + 2*width/3) ...%D
-            - intImg(r, c + width - 1);%B
+        resp1 =  intImg(rlR, rlC) ...%C
+            + intImg(luR, luC) ...%A
+            - intImg(rlR, luC) ...%D
+            - intImg(luR, rlC);%B
+        
+        luR = r;
+        luC = c + width/3;
+        rlR = r + height;
+        rlC = c + width/3*2;
+        
+        resp2 =  intImg(rlR, rlC) ...%C
+            + intImg(luR, luC) ...%A
+            - intImg(rlR, luC) ...%D
+            - intImg(luR, rlC);%B
+        
+        luR = r;
+        luC = c + width/3*2;
+        rlR = r + height;
+        rlC = c + width;
+        
+        resp3 =  intImg(rlR, rlC) ...%C
+            + intImg(luR, luC) ...%A
+            - intImg(rlR, luC) ...%D
+            - intImg(luR, rlC);%B
         
         featureResponse = resp1 - resp2 + resp3;
         
     case 4
-        resp1 = intImg(r + height/3 - 1, c + width - 1) ...%C
-            + intImg(r, c) ...%A
-            - intImg(r + height/3 - 1, c) ...%D
-            - intImg(r, c + width - 1);%B
         
-        resp2 = intImg(r + 2*height/3 - 1, c + width - 1) ...%C
-            + intImg(r + height/3, c) ...%A
-            - intImg(r + 2*height/3 - 1, c) ...%D
-            - intImg(r + height/3 - 1, c + width - 1);%B
+        luR = r;
+        luC = c;
+        rlR = r + height/3;
+        rlC = c + width;
         
-        resp3 = intImg(r + height - 1, c + width - 1) ...%C
-            + intImg(r + 2*height/3, c) ...%A
-            - intImg(r + height - 1, c) ...%D
-            - intImg(4 + 2*height/3, c + width -1);%B
+        resp1 =  intImg(rlR, rlC) ...%C
+            + intImg(luR, luC) ...%A
+            - intImg(rlR, luC) ...%D
+            - intImg(luR, rlC);%B
+        
+        luR = r + height/3;
+        luC = c;
+        rlR = r + height/3*2;
+        rlC = c + width;
+        
+        resp2 =  intImg(rlR, rlC) ...%C
+            + intImg(luR, luC) ...%A
+            - intImg(rlR, luC) ...%D
+            - intImg(luR, rlC);%B
+        
+        luR = r + height/3*2;
+        luC = c;
+        rlR = r + height;
+        rlC = c + width;
+        
+        resp3 =  intImg(rlR, rlC) ...%C
+            + intImg(luR, luC) ...%A
+            - intImg(rlR, luC) ...%D
+            - intImg(luR, rlC);%B
         
         featureResponse = resp1 - resp2 + resp3;
         
     case 5
-        resp1 = intImg(r + height/2 - 1, c + width/2 - 1) ...%C
-            + intImg(r, c) ...%A
-            - intImg(r + height/2 - 1, c) ...%D
-            - intImg(r, c + width/2 - 1);%B
         
-        resp2 = intImg(r + height/2 - 1, c + width - 1) ...%C
-            + intImg(r, c + width/2) ...%A
-            - intImg(r + height/2 - 1, c + width/2) ...%D
-            - intImg(r, c + width - 1);%B
+        luR = r;
+        luC = c;
+        rlR = r + height/2;
+        rlC = c + width/2;
         
-        resp3 = intImg(r + height - 1, c + width/2 - 1) ...%C
-            + intImg(r + height/2, c) ...%A
-            - intImg(r + height - 1, c) ...%D
-            - intImg(r + height/2, c + width/2 - 1);%B
+        resp1 =  intImg(rlR, rlC) ...%C
+            + intImg(luR, luC) ...%A
+            - intImg(rlR, luC) ...%D
+            - intImg(luR, rlC);%B
         
-        resp4 = intImg(r + height - 1, c + width - 1) ...%C
-            + intImg(r + height/2, c + width/2) ...%A
-            - intImg(r + height - 1, c + width/2) ...%D
-            - intImg(r + height/2, c + width - 1);%B
+        luR = r;
+        luC = c + width/2;
+        rlR = r + height/2;
+        rlC = c + width;
         
+        resp2 =  intImg(rlR, rlC) ...%C
+            + intImg(luR, luC) ...%A
+            - intImg(rlR, luC) ...%D
+            - intImg(luR, rlC);%B
+        
+        luR = r + height/2;
+        luC = c;
+        rlR = r + height;
+        rlC = c + width/2;
+        
+        resp3 =  intImg(rlR, rlC) ...%C
+            + intImg(luR, luC) ...%A
+            - intImg(rlR, luC) ...%D
+            - intImg(luR, rlC);%B
+               
+        luR = r + height/2;
+        luC = c + width/2;
+        rlR = r + height;
+        rlC = c + width;
+        
+        resp4 =  intImg(rlR, rlC) ...%C
+            + intImg(luR, luC) ...%A
+            - intImg(rlR, luC) ...%D
+            - intImg(luR, rlC);%B 
         featureResponse = resp1 - resp2 - resp3 + resp4;
                
 end
