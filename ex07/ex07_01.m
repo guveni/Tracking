@@ -12,8 +12,8 @@ dat1 = d.dat;
 Ts = [1 2 3 4 5 10 25 50 100 200 500];
 % Ts = [25];
 
-% plotAll = 1; 
-plotAll = 0; 
+plotAll = 1; 
+% plotAll = 0; 
 % 0: plot only accuracy for different T's
 % 1: also plot results for single classifiers
 

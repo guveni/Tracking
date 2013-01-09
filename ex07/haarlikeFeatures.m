@@ -1,8 +1,9 @@
-function [ featureResponse ] = haarlikeFeatures( classifier, intImg )
+function [ featureResponse ] = haarlikeFeatures( classifier, intImg, windowSize)
 %UNTITLED4 Summary of this function goes here
 %   Detailed explanation goes here
 
 %classifier looks like this: [[r, c, width, height, classifier #]
+%windowSize = 0 means we're not in sliding window phase
 
 featureResponse = 0;
 r = classifier(1);
@@ -11,6 +12,10 @@ width = classifier(3);
 height = classifier(4);
 class = classifier(5);
 
+if(windowSize > 0)
+   width = floor(width * 19/windowSize);
+   height = floor(height * 19/windowSize);
+end
 
 switch class
    
@@ -74,7 +79,7 @@ switch class
         resp1 = intImg(r + height - 1, c + width/3 - 1) ...%C
             + intImg(r, c) ...%A
             - intImg(r + height - 1, c) ...%D
-            - intImg(4, c + winWidht/3 - 1);%B
+            - intImg(4, c + width/3 - 1);%B
         
         resp2 = intImg(r + height - 1, c + 2*width/3 - 1) ...%C
             + intImg(r, c + width/3) ...%A
