@@ -23,7 +23,7 @@ switch class
         luR = r;
         luC = c;
         rlR = r + height;
-        rlC = c + width/2;
+        rlC = round(c + width/2);
         
         resp1 = intImg(rlR, rlC) ...%C
             + intImg(luR, luC) ...%A
@@ -31,7 +31,7 @@ switch class
             - intImg(luR, rlC);%B
         
         luR = r;
-        luC = c + width/2;
+        luC = round(c + width/2);
         rlR = r + height;
         rlC = c + width;
         
@@ -45,7 +45,7 @@ switch class
     case 2
         luR = r;
         luC = c;
-        rlR = r + height/2;
+        rlR = round(r + height/2);
         rlC = c + width;
         
         resp1 =  intImg(rlR, rlC) ...%C
@@ -53,7 +53,7 @@ switch class
             - intImg(rlR, luC) ...%D
             - intImg(luR, rlC);%B
         
-        luR = r + height/2;
+        luR = round(r + height/2);
         luC = c;
         rlR = r + height;
         rlC = c + width;
@@ -70,7 +70,7 @@ switch class
         luR = r;
         luC = c;
         rlR = r + height;
-        rlC = c + width/3;
+        rlC = c + round(width/3);
         
         resp1 =  intImg(rlR, rlC) ...%C
             + intImg(luR, luC) ...%A
@@ -78,9 +78,9 @@ switch class
             - intImg(luR, rlC);%B
         
         luR = r;
-        luC = c + width/3;
+        luC = round(c + width/3);
         rlR = r + height;
-        rlC = c + width/3*2;
+        rlC = round(c + width/3*2);
         
         resp2 =  intImg(rlR, rlC) ...%C
             + intImg(luR, luC) ...%A
@@ -88,7 +88,7 @@ switch class
             - intImg(luR, rlC);%B
         
         luR = r;
-        luC = c + width/3*2;
+        luC = round(c + width/3*2);
         rlR = r + height;
         rlC = c + width;
         
@@ -103,7 +103,7 @@ switch class
         
         luR = r;
         luC = c;
-        rlR = r + height/3;
+        rlR = round(r + height/3);
         rlC = c + width;
         
         resp1 =  intImg(rlR, rlC) ...%C
@@ -111,9 +111,9 @@ switch class
             - intImg(rlR, luC) ...%D
             - intImg(luR, rlC);%B
         
-        luR = r + height/3;
+        luR = round(r + height/3);
         luC = c;
-        rlR = r + height/3*2;
+        rlR = round(r + height/3*2);
         rlC = c + width;
         
         resp2 =  intImg(rlR, rlC) ...%C
@@ -121,7 +121,7 @@ switch class
             - intImg(rlR, luC) ...%D
             - intImg(luR, rlC);%B
         
-        luR = r + height/3*2;
+        luR = round(r + height/3*2);
         luC = c;
         rlR = r + height;
         rlC = c + width;
@@ -137,8 +137,8 @@ switch class
         
         luR = r;
         luC = c;
-        rlR = r + height/2;
-        rlC = c + width/2;
+        rlR = round(r + height/2);
+        rlC = round(c + width/2);
         
         resp1 =  intImg(rlR, rlC) ...%C
             + intImg(luR, luC) ...%A
@@ -146,8 +146,8 @@ switch class
             - intImg(luR, rlC);%B
         
         luR = r;
-        luC = c + width/2;
-        rlR = r + height/2;
+        luC = round(c + width/2);
+        rlR = round(r + height/2);
         rlC = c + width;
         
         resp2 =  intImg(rlR, rlC) ...%C
@@ -155,18 +155,18 @@ switch class
             - intImg(rlR, luC) ...%D
             - intImg(luR, rlC);%B
         
-        luR = r + height/2;
+        luR = round(r + height/2);
         luC = c;
         rlR = r + height;
-        rlC = c + width/2;
+        rlC = round(c + width/2);
         
         resp3 =  intImg(rlR, rlC) ...%C
             + intImg(luR, luC) ...%A
             - intImg(rlR, luC) ...%D
             - intImg(luR, rlC);%B
                
-        luR = r + height/2;
-        luC = c + width/2;
+        luR = round(r + height/2);
+        luC = round(c + width/2);
         rlR = r + height;
         rlC = c + width;
         

@@ -16,4 +16,4 @@ load('./Classifiers.mat');
 %     
 % end
 
-slidingWindow(classifiers(1:5, i), intImg1);
+slidingWindow(classifiers, intImg1);
