@@ -12,12 +12,12 @@ for w = 1:size(windowSize, 1);
     for r = 1:(rows - currWinSize)
        for c = 1:(cols - currWinSize)
 
-           patch = img(r:r+windowSize(w) -1, c:c+currWinSize -1);
+           patch = img(r:r+currWinSize -1, c:c+currWinSize -1);
 
            response = 0;
            
            for cId = 2:size(classifier,2)
-               response = response + haarlikeFeatures(classifier(:,cId), patch, windowSize(w));
+               response = response + haarlikeFeatures(classifier(:,cId), patch, currWinSize);
            end
            
            
