@@ -19,8 +19,8 @@ for w = 1:size(windowSize, 1);  % different sizes
     
     currWinSize = windowSize(w);
     
-    for r = 1:(rows - currWinSize)  % different window positions
-       for c = 1:(cols - currWinSize)
+    for r = 1:2:(rows - currWinSize)  % different window positions
+       for c = 1:2:(cols - currWinSize)
 
            patch = intImg(r:r+currWinSize -1, c:c+currWinSize -1);
 
@@ -28,8 +28,7 @@ for w = 1:size(windowSize, 1);  % different sizes
            imshow(img(r:r+currWinSize -1, c:c+currWinSize -1),[0 255]);
            
            response = 0;
-           
-           correct = 1;
+           alphaSum = 0;
            
            for cId = 2:size(classifiers,2)
                
@@ -48,24 +47,26 @@ for w = 1:size(windowSize, 1);  % different sizes
                
                left = (mean - abs(mean-minPos) * (R-5)/50);
                right = (mean + abs(maxPos - mean) * (R-5)/50);
-               weightedResponse = alpha * currResponse;
                
-                if left <= weightedResponse && weightedResponse <= right
-                    correct = 0;
-                    break;
+%                 weightedResponse = alpha * currResponse;
+               
+%                 if left <= currResponse && currResponse <= right
+                if left <= currResponse && currResponse <= right
+                    response = response + alpha * 1;
+%                 else
+%                     response = response + alpha * -1;
                 end
-               
-%                if minPos <= weightedResponse && weightedResponse <= maxPos
-%                    correct = 0;
-%                    break;
-%                end
-               
-               response = response + weightedResponse;
-               
+         
+               alphaSum = alphaSum + alpha;
            end
            
-           if correct == 1
+           
+           if response > 0.5*alphaSum
+%            if response > 0
+
                disp('face!!!');
+               figure(2);
+               imshow(img(r:r+currWinSize -1, c:c+currWinSize -1),[0 255]);
            end
             
        end

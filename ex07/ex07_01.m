@@ -9,8 +9,8 @@ dat1 = d.dat;
 % dat1 = d.dat;
 
 % Parameters (the number of iterations that are done)
-Ts = [1 2 3 4 5 10 25 50 100 200 500];
-% Ts = [25];
+% Ts = [1 2 3 4 5 10 25 50 100 200 500];
+Ts = [25];
 
 plotAll = 1; 
 % plotAll = 0; 
@@ -178,25 +178,4 @@ semilogx(Ts,accuracys,'rx-');
 figure();
 plot(Ts,accuracys,'rx-');
 
-% figure(2);
-% hold on;
-% for i=1:size(dat2,1)
-%    if( dat2(i,3) == 1)
-%        plot(dat2(i,1),dat2(i,2),'bx')
-%    else
-%        plot(dat2(i,1),dat2(i,2),'rx')
-%    end
-% end
-% hold off;
-% 
-% figure(3);
-% hold on;
-% for i=1:size(dat3,1)
-%    if( dat3(i,3) == 1)
-%        plot(dat3(i,1),dat3(i,2),'bx')
-%    else
-%        plot(dat3(i,1),dat3(i,2),'rx')
-%    end
-% end
-% hold off;
 

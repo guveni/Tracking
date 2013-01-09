@@ -7,8 +7,8 @@ img2 = double(rgb2gray(imread('./test_images/face2.jpg')));
 img3 = double(rgb2gray(imread('./test_images/face3.jpg')));
 
 intImg1 = constructIntegralImage(img1);
-% intImg2 = constructIntegralImage(img2);
-% intImg3 = constructIntegralImage(img3);
+intImg2 = constructIntegralImage(img2);
+intImg3 = constructIntegralImage(img3);
 
 load('./Classifiers.mat');
 
@@ -20,4 +20,6 @@ load('./Classifiers.mat');
 %     
 % end
 
-slidingWindow(classifiers, intImg1, img1);
+% slidingWindow(classifiers, intImg1, img1);
+% slidingWindow(classifiers, intImg2, img2);
+slidingWindow(classifiers, intImg3, img3);
