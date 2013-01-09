@@ -7,12 +7,20 @@ windowSize = [19; 38; 57; 76];
 
 for w = 1:size(windowSize, 1);
     
-    for r = 1:(rows - windowSize(w))
-       for c = 1:(cols - windowSize(w))
+    currWinSize = windowSize(w);
+    
+    for r = 1:(rows - currWinSize)
+       for c = 1:(cols - currWinSize)
 
-           patch = img(r:r+windowSize(w) -1, c:c+windowSize(w) -1);
+           patch = img(r:r+windowSize(w) -1, c:c+currWinSize -1);
 
-           response = haarlikeFeatures(classifier, patch, windowSize(w));
+           response = 0;
+           
+           for cId = 2:size(classifier,2)
+               response = response + haarlikeFeatures(classifier(:,cId), patch, windowSize(w));
+           end
+           
+           
        end
     end
 end
