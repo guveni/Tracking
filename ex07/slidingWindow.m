@@ -13,7 +13,9 @@ c_alpha = 11;
 [rows, cols] = size(intImg);
 windowSize = [19; 38; 57; 76];
 
-
+figure(3);
+imshow(img,[0 255]);
+hold on;
 
 for w = 1:size(windowSize, 1);  % different sizes
     
@@ -24,8 +26,8 @@ for w = 1:size(windowSize, 1);  % different sizes
 
            patch = intImg(r:r+currWinSize -1, c:c+currWinSize -1);
 
-           figure(1);
-           imshow(img(r:r+currWinSize -1, c:c+currWinSize -1),[0 255]);
+%            figure(1);
+%            imshow(img(r:r+currWinSize -1, c:c+currWinSize -1),[0 255]);
            
            response = 0;
            alphaSum = 0;
@@ -50,23 +52,25 @@ for w = 1:size(windowSize, 1);  % different sizes
                
 %                 weightedResponse = alpha * currResponse;
                
-%                 if left <= currResponse && currResponse <= right
+%                 if left <= weightedResponse && weightedResponse <= right
                 if left <= currResponse && currResponse <= right
+                    response = response + alpha * -1;
+                else
                     response = response + alpha * 1;
-%                 else
-%                     response = response + alpha * -1;
                 end
          
-               alphaSum = alphaSum + alpha;
+%                alphaSum = alphaSum + alpha;
            end
            
-           
-           if response > 0.5*alphaSum
-%            if response > 0
+%            if response > 0.5*alphaSum
+           if response > 0.9
 
                disp('face!!!');
                figure(2);
                imshow(img(r:r+currWinSize -1, c:c+currWinSize -1),[0 255]);
+               
+               figure(3);
+               plot([c c+currWinSize c+currWinSize c c], [r r r+currWinSize r+currWinSize r],'r-');
            end
             
        end

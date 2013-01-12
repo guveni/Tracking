@@ -13,10 +13,10 @@ height = classifier(4);
 class = classifier(5);
 
 scaleFactor = windowSize/19;
-width = floor(width * scaleFactor);
-height = floor(height * scaleFactor);
-r = floor(r * scaleFactor);
-c = floor(c * scaleFactor);
+width = round(width * scaleFactor);
+height = round(height * scaleFactor);
+r = round(r * scaleFactor);
+c = round(c * scaleFactor);
 
 
 switch class

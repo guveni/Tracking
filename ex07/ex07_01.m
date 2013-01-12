@@ -1,16 +1,16 @@
 clear;
 close all;
 
-d = load('data1.mat');
-dat1 = d.dat;
-% d = load('data2.mat');
+% d = load('data1.mat');
 % dat1 = d.dat;
+ d = load('data2.mat');
+ dat1 = d.dat;
 % d = load('data3.mat');
 % dat1 = d.dat;
 
 % Parameters (the number of iterations that are done)
 % Ts = [1 2 3 4 5 10 25 50 100 200 500];
-Ts = [25];
+Ts = [1000];
 
 plotAll = 1; 
 % plotAll = 0; 
