@@ -32,19 +32,27 @@ warpCount = 20;
 for i = 1:warpCount
     
     %these will be the random transformations for the rectangle corners
-    transA = round(rand(2, 1)*5); 
-    transB = round(rand(2, 1)*5);
-    transC = round(rand(2, 1)*5);
-    transD = round(rand(2, 1)*5);
+    transA = round(rand(2, 1)*10); 
+    transB = round(rand(2, 1)*10);
+    transC = round(rand(2, 1)*10);
+    transD = round(rand(2, 1)*10);
     
     At = A * transA;
     Bt = B * transB;
     Ct = C * transC;
     Dt = D * transD;
     
-    
     %doDLT
+    H = doDLT([A B C D], [At Bt Ct Dt]);
+    invH = inv(H);
+    
     %backwarp
+    Ab = A * invH;
+    Bb = B * invH;
+    Cb = C * invH;
+    Db = D * invH;
+    
+   
     %normalize intensity values (mean = 0, standard deviation = 1)
     %add some random noise to intensity values
     
