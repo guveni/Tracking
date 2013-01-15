@@ -18,5 +18,5 @@ plot([left right right left left],[top top bottom bottom top],'r-');
 warpImg = warpRectangle(img,rectangle);
 
 figure(2);
-imshow(warpImg,[0 255]);
+imshow(warpImg,[-128 128]);
 

@@ -48,17 +48,28 @@ newRows = rows+randRange;
 newCols = cols+randRange;
 warpImg = ones(newRows,newCols)*-1;
 
+pixSum = 0;
+
 for r=1:newRows
     for c=1:newCols
         % simple nearest neighbour matching
         oriPos = round( normalizePoints(H\[c;r;1]) );
         
         if oriPos(1) > 0 && oriPos(1) <= cols && oriPos(2) > 0 && oriPos(2) <= rows
-           warpImg(r,c) =  img(oriPos(2),oriPos(1));
+            intensity = img(oriPos(2),oriPos(1));
+            warpImg(r,c) =  intensity;
+
+        else
+            warpImg(r,c) = NaN;
         end
     end
 end
 
+meanVal = mean( warpImg( ~isnan(warpImg) ) );
+warpImg = warpImg - meanVal;
+
+% stdDev = std( warpImg (~isnan(warpImg) ) );
+% warpImg = warpImg / stdDev;
 
 %normalize intensity values (mean = 0, standard deviation = 1)
 %add some random noise to intensity values
