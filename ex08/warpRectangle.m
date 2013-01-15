@@ -32,16 +32,16 @@ warpCount = 20;
 randStart = -10;
 randEnd = 10;
 randRange = randEnd-randStart+1;
-rangeStart = rangeStart-0.5;
+randStart = randStart-0.5;
 
 for i = 1:warpCount
     
     %these will be the random transformations for the rectangle corners
     
-    transA = round(rand(2, 1)*randRange+rangeStart); 
-    transB = round(rand(2, 1)*randRange+rangeStart); 
-    transC = round(rand(2, 1)*randRange+rangeStart); 
-    transD = round(rand(2, 1)*randRange+rangeStart); 
+    transA = round(rand(2, 1)*randRange+randStart); 
+    transB = round(rand(2, 1)*randRange+randStart); 
+    transC = round(rand(2, 1)*randRange+randStart); 
+    transD = round(rand(2, 1)*randRange+randStart); 
     
     At = A * transA;
     Bt = B * transB;
