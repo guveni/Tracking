@@ -6,6 +6,7 @@ function [ H ] = doDLT( refPoints, corPoints )
 %   H: homography
     
 
+
     % number of points
     N = size(refPoints,2);
 
@@ -13,6 +14,14 @@ function [ H ] = doDLT( refPoints, corPoints )
         disp('the inputs do not contain the same number of values');
     end
            
+    if(size(refPoints,1)==2)
+       refPoints(3,1:N) = ones(1,N);
+    end
+    
+    if(size(corPoints,1)==2)
+       corPoints(3,1:N) = ones(1,N);
+    end
+    
     % normalize points (this means points have form x,y,1)
     refPoints = normalizePoints(refPoints);
     corPoints = normalizePoints(corPoints);
