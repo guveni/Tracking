@@ -48,13 +48,17 @@ for i = 1:warpCount
     Ct = C * transC;
     Dt = D * transD;
     
-    
     %doDLT
-    H = doDLT([A B C D],[At Bt Ct Dt]);
+    H = doDLT([A B C D], [At Bt Ct Dt]);
+    invH = inv(H);
     
     %backwarp
+    Ab = A * invH;
+    Bb = B * invH;
+    Cb = C * invH;
+    Db = D * invH;
     
-    
+   
     %normalize intensity values (mean = 0, standard deviation = 1)
     %add some random noise to intensity values
     
