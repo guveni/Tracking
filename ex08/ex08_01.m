@@ -40,6 +40,7 @@ A = buildA(img,gridX,gridY,rectangle);
 
 
 currP = zeros(8,1);
+currH = eye(3);
 
 numImages = 45;
 for i=0:numImages-1
@@ -51,20 +52,25 @@ for i=0:numImages-1
     end
     currImg = double(rgb2gray(imread(filename)));
     
-    for n=5:1
+    for n=5:-1:1
         for ctr=1:5
     
-            H = getHFromP(currP,rectangle);
+%             H = getHFromP(currP,rectangle);
 
-            intensities = getGridIntensities(currImg,gridX,gridY,H);
+            intensities = getGridIntensities(currImg,gridX,gridY,currH);
 
             intensities = normalizeMatrix(intensities);
 
-            di = oriGridIntensities - intensities;
+            di = oriGridInt - intensities;
 
+            di = reshape(di,100,1);
             dp = A(:,:,5)*di;
             
             currP = currP + dp;
+            
+            updH = getHFromP(dp,rectangle);
+            
+            currH = currH * updH;
         end
     end
 end
