@@ -1,6 +1,8 @@
 close all;
 clear;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Predefined stuff %%%%%%%%%%%%%%%%%%%%%%%%%%
+
 img = double(rgb2gray(imread('image_sequence/0000.png')));
 
 rectangle = [250;150;100;100];
@@ -21,13 +23,23 @@ stepY = height/(numGridPoints-1);
 
 gridX = gridX +left-1;
 gridY = gridY +top-1;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Start with calculations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+maxWarp = 30;
+
+oriGridInt = getGridIntensities(img,gridX,gridY);
+
+[warpImg,gridInt,H] = warpRectangle(img,rectangle,gridX,gridY,30);
+
+
+
 figure(1);
-imshow(img,[0 255]);
+img = normalizeMatrix(img);
+imshow(img,[-2 2]);
 hold on;
 plot([left right right left left],[top top bottom bottom top],'r-');
 plot(gridX,gridY,'bo');
-
-warpImg = warpRectangle(img,rectangle,gridX,gridY);
 
 figure(2);
 imshow(warpImg,[-2 2]);

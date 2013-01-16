@@ -1,4 +1,4 @@
-function [ warpImg,H ] = warpRectangle( img, rect, gridX, gridY )
+function [ warpImg, gridIntensities,H ] = warpRectangle( img, rect, gridX, gridY, maxOffset )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -17,8 +17,8 @@ C = [x;y+height;1];
 D = [x+width;y+height;1];
 
 
-randStart = -10;
-randEnd = 10;
+randStart = -maxOffset;
+randEnd = maxOffset;
 randRange = randEnd-randStart+1;
 randStart = randStart-0.5;
 
@@ -64,30 +64,14 @@ for r=1:newRows
     end
 end
 
-numGridPoints = size(gridX,1);
-gridIntensities = zeros(numGridPoints,numGridPoints);
-
-for r=1:numGridPoints
-    for c=1:numGridPoints
-        oriPos = round(normalizePoints(H*[gridX(r,c);gridY(r,c);1]))
-        if oriPos(1) > 0 && oriPos(1) <= cols && oriPos(2) > 0 && oriPos(2) <= rows
-            intensity = img(oriPos(2),oriPos(1));
-            gridIntensities(r,c) =  intensity;
-            
-            warpImg(oriPos(2),oriPos(1)) = 500;
-        else
-            gridIntensities(r,c) = NaN;
-        end
-    end
-end
-
-
 %normalize intensity values (mean = 0, standard deviation = 1)
 warpImg = normalizeMatrix(warpImg);
 
 %add some random noise to intensity values
 warpImg = warpImg+normrnd(0,0.1,newRows,newCols);
 
-    
+
+gridIntensities = getGridIntensities(warpImg,gridX,gridY);
+
 end
 
