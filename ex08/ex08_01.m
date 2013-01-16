@@ -27,6 +27,9 @@ gridY = gridY +top-1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Start with calculations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 img = normalizeMatrix(img);
+
+oriGridInt = getGridIntensities(img,gridX,gridY,eye(3));
+
 figure(1);
 imshow(img,[-2 2]);
 hold on;
@@ -36,9 +39,35 @@ plot(gridX,gridY,'bo');
 A = buildA(img,gridX,gridY,rectangle);
 
 
+currP = zeros(8,1);
 
+numImages = 45;
+for i=0:numImages-1
+  	i
+    if(i < 10)
+        filename = sprintf('./image_sequence/000%d.png', i);
+    else
+        filename = sprintf('./image_sequence/00%d.png', i);
+    end
+    currImg = double(rgb2gray(imread(filename)));
+    
+    for n=5:1
+        for ctr=1:5
+    
+            H = getHFromP(currP,rectangle);
 
+            intensities = getGridIntensities(currImg,gridX,gridY,H);
 
+            intensities = normalizeMatrix(intensities);
+
+            di = oriGridIntensities - intensities;
+
+            dp = A(:,:,5)*di;
+            
+            currP = currP + dp;
+        end
+    end
+end
 
 
 
