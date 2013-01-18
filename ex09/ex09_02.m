@@ -27,6 +27,8 @@ histogram = histogram/sum(histogram)*255;
 
 centerX = x+width/2;
 centerY = y+height/2;
+oldCenterX = centerX;
+oldCenterY = centerY;
 
 for imgId=140:190
     filename = sprintf('./sequence/2043_000%d.jpeg', imgId);
@@ -37,6 +39,7 @@ for imgId=140:190
     
     ctr = 1;
     while ctr < 20
+        
        le = round(centerX-width/2);
        ri = round(centerX+width/2);
        to = round(centerY-height/2);
@@ -54,16 +57,25 @@ for imgId=140:190
                
            end
        end
+              
        centerX = xSum/(sum(sum(probDist)));
        centerY = ySum/(sum(sum(probDist)));
        
-        ctr = ctr+1; 
+       if abs(centerX-oldCenterX) < .5 || abs(centerY-oldCenterY) < .5
+            break;
+       end
+       
+       oldCenterX = centerX;
+       oldCenterY = centerY;
+       
+       ctr = ctr+1; 
     end
-           figure(3);
-       imshow(imgRgb/255);
-       hold on;
-       plot([le ri ri le le],[to to bo bo to],'r-');
-       hold off;
+    
+    figure(3);
+    imshow(imgRgb/255);
+    hold on;
+    plot([le ri ri le le],[to to bo bo to],'r-');
+    hold off;
        
     
 end
