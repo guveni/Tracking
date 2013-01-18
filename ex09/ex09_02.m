@@ -31,11 +31,13 @@ oldCenterX = centerX;
 oldCenterY = centerY;
 
 for imgId=140:190
+
     filename = sprintf('./sequence/2043_000%d.jpeg', imgId);
     imgRgb = double(imread(filename));
     imgHsv = rgb2hsv(imgRgb);
-    
-    
+    figure(3);
+    imshow(imgRgb/255);
+    hold on;
     
     ctr = 1;
     while ctr < 20
@@ -62,21 +64,25 @@ for imgId=140:190
        centerY = ySum/(sum(sum(probDist)));
        
        if abs(centerX-oldCenterX) < .5 || abs(centerY-oldCenterY) < .5
-            break;
+           le = round(centerX-width/2);
+           ri = round(centerX+width/2);
+           to = round(centerY-height/2);
+           bo = round(centerY+height/2); 
+           break;
        end
        
        oldCenterX = centerX;
        oldCenterY = centerY;
        
+       plot([le ri ri le le],[to to bo bo to],'b-');
+       
        ctr = ctr+1; 
     end
+
     
-    figure(3);
-    imshow(imgRgb/255);
-    hold on;
     plot([le ri ri le le],[to to bo bo to],'r-');
     hold off;
-       
+
     
 end
 
