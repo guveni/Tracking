@@ -13,6 +13,7 @@ function [ probDist ] = probMap( region, histogram )
         end
     end
     
+    probDist = probDist/max(max(probDist))*255;
 
 end
 

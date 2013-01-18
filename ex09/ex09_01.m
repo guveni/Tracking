@@ -33,7 +33,7 @@ imshow(regionRgb/255);
 probDist = probMap(img1hsv,histogram);
 
 figure(6);
-imshow(probDist,[0 20]);
+imshow(probDist,[0 255]);
 
 
 for imgId=140:190
@@ -46,8 +46,7 @@ for imgId=140:190
     subplot(1, 2, 1);
     imshow(imgRgb/255);
     subplot(1,2,2);
-    imshow(probDist,[0,20]);
-    
+    imshow(probDist,[0,255]);
 end
 
 
