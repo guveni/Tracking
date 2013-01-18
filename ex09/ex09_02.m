@@ -4,6 +4,8 @@ close all;
 img1rgb = double(imread('./sequence/2043_000140.jpeg'));
 img1hsv = rgb2hsv(img1rgb);
 
+numBins = 100;
+
 rect = [506, 308, 49, 38];
 x = rect(1);
 y = rect(2);
@@ -18,12 +20,13 @@ hold off;
 
 regionHsv = img1hsv(y:y+height,x:x+width, :);
 regionRgb = img1rgb(y:y+height,x:x+width, :);
+histogram = colorHist(regionHsv,numBins);
+
 figure(2);
-histogram = colorHist(regionHsv);
-bar(1:256, histogram);
+bar(1:numBins, histogram);
 
 % normalize histogram
-histogram = histogram/sum(histogram)*255;
+% histogram = histogram/sum(histogram)*255;
 
 centerX = x+width/2;
 centerY = y+height/2;
@@ -47,7 +50,7 @@ for imgId=140:190
        to = round(centerY-height/2);
        bo = round(centerY+height/2);
        regionHsv = imgHsv(to:bo,le:ri, :);
-       probDist = probMap(regionHsv,histogram);
+       probDist = probMap(regionHsv,histogram,numBins);
        
        xSum=0;
        ySum=0;
