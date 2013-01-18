@@ -11,7 +11,7 @@ for r = 1:rows
     for c = 1:cols
         
         
-        hue = round(hsvImg(r, c, 1)*256); %hue originally is in the range of [0, 1]
+        hue = round(hsvImg(r, c, 1)*255); %hue originally is in the range of [0, 1]
         histogram(hue + 1) = histogram(hue + 1) + 1;
         
     end
